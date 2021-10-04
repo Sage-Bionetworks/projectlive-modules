@@ -7,6 +7,7 @@
 create_publication_status_plot(
   data,
   x,
+  y,
   fill,
   x_axis_text = NULL,
   y_axis_text = NULL
@@ -16,6 +17,8 @@ create_publication_status_plot(
 \item{data}{A Tibble}
 
 \item{x}{A string that is the name of a column in the data}
+
+\item{y}{A string that is the name of a column in the data}
 
 \item{fill}{A string that is the name of a column in the data}
 

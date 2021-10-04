@@ -224,6 +224,10 @@
     "table": "publications",
     "filter_column": "studyName",
     "unnest_columns" : "studyName",
+    "count_column": {
+      "name": "Count",
+      "complete_columns": ["year"]
+    },
     "columns": [
       {
         "name": "year",
@@ -236,10 +240,11 @@
     ],
     "plot": {
       "x": "Year",
+      "y": "Count",
       "fill": "Study Name"
     },
     "empty_table_message": "This study has no associated publications yet.",
-    "tooltips": ["count", "fill"]
+    "tooltips": ["Count", "fill"]
   },
   "milestone_reporting_plot": {
     "files_table": {

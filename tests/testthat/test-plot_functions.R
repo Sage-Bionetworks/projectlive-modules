@@ -57,13 +57,15 @@ test_that("create_resources_generated_plot",{
 
 test_that("create_publication_status_plot",{
   data <- dplyr::tibble(
-    "Study Name" = c("s1", "s1", "s2", "s3"),
-    "Year" = c(2000L, 2000L, 2001L, 2002L)
+    "Study Name" = c("s1", "s2", "s3"),
+    "Year" = c(2000L, 2001L, 2002L),
+    "Count" = c(2, 1, 1)
   )
 
   fig <- create_publication_status_plot(
     data,
     x = "Year",
+    y = "Count",
     fill = "Study Name"
   ) %>%
     plotly::ggplotly(tooltip = c("Count", "fill"))
@@ -186,19 +188,4 @@ test_that("create_study_timeline_plot",{
   expect_type(fig, "list")
 })
 
-test_that("create_publication_status_plot",{
-  data <- dplyr::tibble(
-    "Year" = c(rep(2018L, 20), rep(2020L, 5), rep(2019L, 11)),
-    "Grant Name" = "G1"
-  )
 
-  fig <- create_publication_status_plot(
-    data,
-    x = "Year",
-    fill = "Grant Name"
-    ) %>%
-    plotly::ggplotly(tooltip = c("count", "fill"))
-  print(fig)
-
-  expect_type(fig, "list")
-})

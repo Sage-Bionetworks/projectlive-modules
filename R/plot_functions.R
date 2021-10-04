@@ -207,6 +207,7 @@ create_file_upload_timeline_plot <- function(
 #'
 #' @param data A Tibble
 #' @param x A string that is the name of a column in the data
+#' @param y A string that is the name of a column in the data
 #' @param fill A string that is the name of a column in the data
 #' @param x_axis_text A list of parameters to
 #' axis.text.x = ggplot2::element_text()
@@ -218,19 +219,21 @@ create_file_upload_timeline_plot <- function(
 create_publication_status_plot <- function(
   data,
   x,
+  y,
   fill,
   x_axis_text = NULL,
   y_axis_text = NULL
 ){
-
   data %>%
     ggplot2::ggplot() +
     ggplot2::geom_bar(
       ggplot2::aes(
         x = !!rlang::sym(x),
+        y = !!rlang::sym(y),
         fill = !!rlang::sym(fill),
         color = !!rlang::sym(fill)
       ),
+      stat = "identity",
       alpha = 0.8,
       position = "stack"
     ) +
