@@ -52,6 +52,15 @@ plot_module_server <- function(id, data, config, plot_func, ...){
           config()$empty_table_message
         ))
 
+        count_column <- config()$count_column$name
+
+        if(!is.null(count_column)){
+          shiny::validate(shiny::need(
+            sum(data[count_column]) > 0,
+            config()$empty_table_message
+          ))
+        }
+
         return(data)
       })
 
