@@ -11,7 +11,7 @@ test_that("new_submissions_module_server", {
     ),
     {
       session$setInputs(
-        "new_files_day_choice" = 100
+        "new_files_day_choice" = 500
       )
       expect_type(output$header_text, "character")
       expect_type(minimum_date(), "double")
