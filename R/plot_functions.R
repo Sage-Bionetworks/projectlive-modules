@@ -33,6 +33,35 @@
 #' )
 #' @export
 create_plot_with_config <- function(data, config, plot_func, ...){
+
+  #color options
+  color_types <- list(
+    type = "buttons",
+    direction = "right",
+    xanchor = 'center',
+    yanchor = "top",
+    pad = list('r'= 0, 't'= 10, 'b' = 10),
+    x = 0.5,
+    y = 1.17,
+    buttons = list(
+
+      list(method = "restyle",
+           args = list("fill", "Rainbow"),
+           label = "Rainbow"),
+
+      list(method = "restyle",
+           args = list("fill", "Jet"),
+           label = "Jet"),
+
+      list(method = "restyle",
+           args = list("fill", "Earth"),
+           label = "Earth"),
+
+      list(method = "restyle",
+           args = list("fill", "Electric"),
+           label = "Electric")
+    ))
+
   fig <-
     rlang::exec(plot_func, !!!config$plot, data = data) %>%
     plotly::ggplotly(
@@ -40,7 +69,8 @@ create_plot_with_config <- function(data, config, plot_func, ...){
       ...
     ) %>%
     plotly::layout(
-      autosize = T
+      autosize = T,
+      updatemenus = list(color_types)
     )
 
 }
@@ -114,6 +144,7 @@ create_resources_generated_plot <- function(
   facet,
   y_axis_text = NULL
   ){
+
 
   data %>%
     ggplot2::ggplot() +
