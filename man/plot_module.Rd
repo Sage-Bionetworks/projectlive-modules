@@ -6,14 +6,16 @@
 \alias{plot_module_server}
 \title{File Upload Timeline Module UI}
 \usage{
-file_upload_timeline_module_ui(id)
+file_upload_timeline_module_ui(id, button_text = "Download plot table")
 
-plot_module_ui(id, title)
+plot_module_ui(id, title, button_text = "Download plot table")
 
 plot_module_server(id, data, config, plot_func, ...)
 }
 \arguments{
 \item{id}{shiny id}
+
+\item{button_text}{button_text A string}
 
 \item{title}{A string, the displayed title of the shinydashboard::box()}
 
