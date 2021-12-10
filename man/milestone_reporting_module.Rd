@@ -5,12 +5,14 @@
 \alias{milestone_reporting_module_server}
 \title{milestone_reporting_module_ui and milestone_reporting_module_server}
 \usage{
-milestone_reporting_module_ui(id)
+milestone_reporting_module_ui(id, button_text = "Download plot table")
 
 milestone_reporting_module_server(id, data, config)
 }
 \arguments{
 \item{id}{shiny id}
+
+\item{button_text}{button_text A string}
 
 \item{data}{A named list. The list must contain a list named "tables".}
 

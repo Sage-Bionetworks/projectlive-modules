@@ -5,12 +5,14 @@
 \alias{study_summary_module_server}
 \title{study_summary_module_ui and study_summary_module_server}
 \usage{
-study_summary_module_ui(id)
+study_summary_module_ui(id, button_text = "Download plot table")
 
 study_summary_module_server(id, data, config)
 }
 \arguments{
 \item{id}{shiny id}
+
+\item{button_text}{button_text A string}
 
 \item{data}{A named list. The list must contain a list named "tables".}
 

@@ -4,18 +4,20 @@
 #' @description  A shiny Module.
 #'
 #' @param id shiny id
+#' @param button_text button_text A string
 #' @export
-file_upload_timeline_module_ui <- function(id){
+file_upload_timeline_module_ui <- function(id, button_text = "Download plot table"){
   ns <- shiny::NS(id)
   shinydashboard::box(
+    shiny::uiOutput(ns("file_upload_timeline_filter_ui")),
+    shiny::downloadButton(ns("download_tbl"), button_text),
+    plotly::plotlyOutput(ns('file_upload_timeline')),
     title = "File Upload Timeline",
     status = "primary",
     solidHeader = TRUE,
     width = 12,
-    height = 1000,
-    collapsible = FALSE,
-    shiny::uiOutput(ns("file_upload_timeline_filter_ui")),
-    plotly::plotlyOutput(ns('file_upload_timeline'))
+    height = 1100,
+    collapsible = FALSE
   )
 }
 
@@ -92,6 +94,11 @@ file_upload_timeline_module_server <- function(id, data, config){
           height = 870
         )
       })
+
+      output$download_tbl <- shiny::downloadHandler(
+        filename = function() stringr::str_c("data-", Sys.Date(), ".csv"),
+        content = function(con) readr::write_csv(file_upload_timeline_data(), con)
+      )
     }
   )
 }
