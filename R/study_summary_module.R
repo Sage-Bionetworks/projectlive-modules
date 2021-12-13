@@ -127,6 +127,7 @@ study_summary_module_server <- function(id, data, config){
         filtered_data() %>%
           purrr::pluck("tables", config$table) %>%
           format_plot_data_with_config(config)
+
       })
 
       output$data_focus_plot <- plotly::renderPlotly({
@@ -142,9 +143,20 @@ study_summary_module_server <- function(id, data, config){
         create_data_focus_plots(data_list, config)
       })
 
+      data_focus_summary_tbl <- shiny::reactive({
+        shiny::req(data_focus_plot_tbl(), config())
+
+        config <- purrr::pluck(config(), "data_focus_plot")
+
+        data_focus_plot_tbl() %>%
+          tidyr::pivot_longer(-config$plot$x, names_to = "Name", values_to = "Value") %>%
+          dplyr::count(dplyr::across(dplyr::everything()), name = "Count") %>%
+          dplyr::arrange(!!rlang::sym(config$plot$x), .data$Name, .data$Value)
+      })
+
       output$download_tbl <- shiny::downloadHandler(
         filename = function() stringr::str_c("data-", Sys.Date(), ".csv"),
-        content = function(con) readr::write_csv(data_focus_plot_tbl(), con)
+        content = function(con) readr::write_csv(data_focus_summary_tbl(), con)
       )
 
       plot_module_server(

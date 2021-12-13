@@ -120,7 +120,7 @@ create_team_table_from_synapse <- function(syn, config){
 
   tbl <-
     glue::glue(
-      "SELECT '{team_col}' AS t, '{group_col}' AS g FROM {synapse_id}"
+      'SELECT "{team_col}" AS t, "{group_col}" AS g FROM {synapse_id}'
     ) %>%
     format_synapse_table_query(syn, query_string = .) %>%
     dplyr::select("teams" = "t", "groups" = "g")
