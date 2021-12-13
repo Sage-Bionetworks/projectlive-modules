@@ -4,10 +4,11 @@
 #' @description  A shiny Module.
 #'
 #' @param id shiny id
+#' @param button_text button_text A string
 #'
 #' @rdname milestone_reporting_module
 #' @export
-milestone_reporting_module_ui <- function(id){
+milestone_reporting_module_ui <- function(id, button_text = "Download plot table"){
   ns <- shiny::NS(id)
 
   shiny::tagList(
@@ -48,6 +49,7 @@ milestone_reporting_module_ui <- function(id){
           )
         ),
         shiny::textOutput(ns("plot_title2")),
+        shiny::downloadButton(ns("download_tbl2"), button_text),
         shiny::fluidRow(
           shiny::column(
             width = 12,
@@ -90,6 +92,7 @@ milestone_reporting_module_ui <- function(id){
           )
         ),
         shiny::textOutput(ns("plot_title1")),
+        shiny::downloadButton(ns("download_tbl1"), button_text),
         shiny::fluidRow(
           shiny::column(
             width = 12,
@@ -158,15 +161,6 @@ milestone_reporting_module_server <- function(id, data, config){
       })
 
       # plot1 ----
-
-      # output$value_box_1 <- shinydashboard::renderValueBox(
-      #   shinydashboard::valueBox(
-      #     value = "Sage Internal milestone tracking",
-      #     subtitle = NULL,
-      #     width = NULL,
-      #     color = "blue"
-      #   )
-      # )
 
       dt_tbl <- shiny::reactive({
         shiny::req(id_tbl(), config())
@@ -292,6 +286,11 @@ milestone_reporting_module_server <- function(id, data, config){
           )
       })
 
+      output$download_tbl1 <- shiny::downloadHandler(
+        filename = function() stringr::str_c("data-", Sys.Date(), ".csv"),
+        content = function(con) readr::write_csv(merged_tbl1(), con)
+      )
+
       # plot2 ----
 
       milestone_choices <- shiny::reactive({
@@ -394,6 +393,11 @@ milestone_reporting_module_server <- function(id, data, config){
             autosize = T
           )
       })
+
+      output$download_tbl2 <- shiny::downloadHandler(
+        filename = function() stringr::str_c("data-", Sys.Date(), ".csv"),
+        content = function(con) readr::write_csv(merged_tbl2(), con)
+      )
 
     }
   )

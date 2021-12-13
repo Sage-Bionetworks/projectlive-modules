@@ -6,8 +6,10 @@
 #'
 #' @param id shiny id
 #' @param title A string, the displayed title of the shinydashboard::box()
+#' @param button_text button_text A string
+#'
 #' @export
-plot_module_ui <- function(id, title){
+plot_module_ui <- function(id, title, button_text = "Download plot table"){
   ns <- shiny::NS(id)
   shinydashboard::box(
     title = title,
@@ -15,6 +17,7 @@ plot_module_ui <- function(id, title){
     solidHeader = TRUE,
     width = 12,
     collapsible = FALSE,
+    shiny::downloadButton(ns("download_tbl"), button_text),
     plotly::plotlyOutput(ns("plot"))
   )
 }
@@ -78,6 +81,23 @@ plot_module_server <- function(id, data, config, plot_func, ...){
         shiny::req(plot_obj())
         plot_obj()
       })
+
+      summarized_plot_data <- shiny::reactive({
+        shiny::req(plot_data())
+        if("Count" %in% colnames(plot_data())) data <- plot_data()
+        else {
+          data <- dplyr::count(
+            plot_data(),
+            dplyr::across(dplyr::everything()), name = "Count"
+          )
+        }
+        return(data)
+      })
+
+      output$download_tbl <- shiny::downloadHandler(
+        filename = function() stringr::str_c("data-", Sys.Date(), ".csv"),
+        content = function(con) readr::write_csv(summarized_plot_data(), con)
+      )
     }
   )
 }

@@ -4,10 +4,11 @@
 #' @description  A shiny Module.
 #'
 #' @param id shiny id
+#' @param button_text button_text A string
 #'
 #' @rdname study_summary_module
 #' @export
-study_summary_module_ui <- function(id){
+study_summary_module_ui <- function(id, button_text = "Download plot table"){
   ns <- shiny::NS(id)
 
   shiny::tagList(
@@ -34,6 +35,7 @@ study_summary_module_ui <- function(id){
           ),
           plot_module_ui(ns("study_timeline_plot"), "Study Timeline"),
           shinydashboard::box(
+            shiny::downloadButton(ns("download_tbl"), button_text),
             plotly::plotlyOutput(ns('data_focus_plot')),
             title = "Data Focus",
             status = "primary",
@@ -117,20 +119,45 @@ study_summary_module_server <- function(id, data, config){
         plot_func = shiny::reactive("create_study_timeline_plot")
       )
 
-      output$data_focus_plot <- plotly::renderPlotly({
+      data_focus_plot_tbl <- shiny::reactive({
         shiny::req(filtered_data(), config())
 
         config <- purrr::pluck(config(), "data_focus_plot")
 
-        data_list <- filtered_data() %>%
+        filtered_data() %>%
           purrr::pluck("tables", config$table) %>%
-          format_plot_data_with_config(config) %>%
+          format_plot_data_with_config(config)
+
+      })
+
+      output$data_focus_plot <- plotly::renderPlotly({
+        shiny::req(data_focus_plot_tbl(), config())
+
+        config <- purrr::pluck(config(), "data_focus_plot")
+
+        data_list <- data_focus_plot_tbl() %>%
           create_data_focus_tables(config$plot$x, config$plot$fill)
 
         shiny::validate(shiny::need(length(data_list) > 0 , config$empty_table_message))
 
         create_data_focus_plots(data_list, config)
       })
+
+      data_focus_summary_tbl <- shiny::reactive({
+        shiny::req(data_focus_plot_tbl(), config())
+
+        config <- purrr::pluck(config(), "data_focus_plot")
+
+        data_focus_plot_tbl() %>%
+          tidyr::pivot_longer(-config$plot$x, names_to = "Name", values_to = "Value") %>%
+          dplyr::count(dplyr::across(dplyr::everything()), name = "Count") %>%
+          dplyr::arrange(!!rlang::sym(config$plot$x), .data$Name, .data$Value)
+      })
+
+      output$download_tbl <- shiny::downloadHandler(
+        filename = function() stringr::str_c("data-", Sys.Date(), ".csv"),
+        content = function(con) readr::write_csv(data_focus_summary_tbl(), con)
+      )
 
       plot_module_server(
         id = "annotation_activity_plot",
