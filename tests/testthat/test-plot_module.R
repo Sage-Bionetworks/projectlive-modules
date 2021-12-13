@@ -16,6 +16,11 @@ test_that("plot_module_server_nf1", {
     {
       expect_type(plot_data(), "list")
       expect_type(output$plot, "character")
+      expect_type(summarized_plot_data(), "list")
+      expect_named(
+        summarized_plot_data(),
+        c("Species", "Initiative", "Access Type", "Count")
+      )
     }
   )
 })
@@ -33,6 +38,11 @@ test_that("plot_module_server_nf2", {
     {
       expect_type(plot_data(), "list")
       expect_type(output$plot, "character")
+      expect_type(summarized_plot_data(), "list")
+      expect_named(
+        summarized_plot_data(),
+        c("Year", "Study Name", "Count")
+      )
     }
   )
 })
@@ -50,6 +60,11 @@ test_that("plot_module_server_nf3", {
     {
       expect_type(plot_data(), "list")
       expect_type(output$plot, "character")
+      expect_type(summarized_plot_data(), "list")
+      expect_named(
+        summarized_plot_data(),
+        c("Year", "Study Name", "Count")
+      )
     }
   )
 })
@@ -67,6 +82,11 @@ test_that("plot_module_server_csbc1", {
     {
       expect_type(plot_data(), "list")
       expect_type(output$plot, "character")
+      expect_type(summarized_plot_data(), "list")
+      expect_named(
+        summarized_plot_data(),
+        c('Year', 'Consortium', 'Access Type', 'Count')
+      )
     }
   )
 })
@@ -84,6 +104,11 @@ test_that("plot_module_server_csbc2", {
     {
       expect_type(plot_data(), "list")
       expect_type(output$plot, "character")
+      expect_type(summarized_plot_data(), "list")
+      expect_named(
+        summarized_plot_data(),
+        c('Year', 'Tissue', 'Count')
+      )
     }
   )
 })
@@ -101,6 +126,11 @@ test_that("plot_module_server_csbc3", {
     {
       expect_type(plot_data(), "list")
       expect_type(output$plot, "character")
+      expect_type(summarized_plot_data(), "list")
+      expect_named(
+        summarized_plot_data(),
+        c('Year', 'Grant Name', 'Theme', 'Count')
+      )
     }
   )
 })
