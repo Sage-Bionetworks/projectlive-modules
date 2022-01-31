@@ -15,9 +15,15 @@ test_that("new_submissions_module_server", {
       )
       expect_type(output$header_text, "character")
       expect_type(minimum_date(), "double")
-      expect_type(new_files_table(), "list")
+      expect_type(filtered_data(), "list")
+      expect_named(filtered_data(), c("tables", "minimum_date"))
+      expect_type(filtered_data()$tables, "list")
+      expect_named(filtered_data()$tables, "files")
+      expect_true(tibble::is_tibble(filtered_data()$tables$files))
+      expect_type(filtered_data()$minimum_date, "double")
+      expect_true(tibble::is_tibble(data_table()))
       expect_named(
-        new_files_table(),
+        data_table(),
         c(
           'File Name',
           'Date',
@@ -28,7 +34,8 @@ test_that("new_submissions_module_server", {
           'Assay'
         )
       )
-      expect_type(output$new_files_dt, "character")
+      expect_type(output$data_table, "character")
+
     }
   )
 })
