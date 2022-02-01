@@ -61,14 +61,14 @@
         "truncate": 40
       },
       {
-        "name": "accessType",
-        "display_name": "Access Type",
+        "display_name": "Assay",
+        "name": "assay",
         "recode": {"na_replace": "Not Annotated"}
       }
     ],
     "plot": {
       "x": "Study Name",
-      "fill": "Access Type",
+      "fill": "Assay",
       "y_axis_text": {
         "size": 10
       }
