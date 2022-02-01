@@ -31,8 +31,9 @@ new_submissions_module_ui <- function(id){
               min = 1,
               step = 1
             ),
-            DT::dataTableOutput(ns('new_files_dt')),
-          )
+            DT::dataTableOutput(ns('data_table'))
+          ),
+          plot_module_ui(ns("plot"), "New Submissions Plot"),
         )
       )
     )
@@ -63,30 +64,55 @@ new_submissions_module_server <- function(id, data, config){
         lubridate::now() - lubridate::ddays(input$new_files_day_choice)
       })
 
-      new_files_table <- shiny::reactive({
+      filtered_data <- shiny::reactive({
 
-        shiny::req(data(), config, minimum_date())
+        shiny::req(data(), config(), minimum_date())
 
         config <- purrr::pluck(
           config(),
           "new_files_table"
         )
 
-        data <- data() %>%
-          purrr::pluck("tables", "files") %>%
+        filtered_data <- data() %>%
+          purrr::pluck("tables", config$table) %>%
           dplyr::filter(!!rlang::sym(config$date_column) > minimum_date()) %>%
           dplyr::arrange(dplyr::desc(!!rlang::sym(config$date_column))) %>%
-          format_plot_data_with_config(config$table)
+          list() %>%
+          purrr::set_names(config$table) %>%
+          list() %>%
+          purrr::set_names("tables")
 
-        shiny::validate(shiny::need(nrow(data) > 0, config$empty_table_message))
-
-        return(data)
+        filtered_data$minimum_date <- minimum_date()
+        return(filtered_data)
       })
 
-      output$new_files_dt <- DT::renderDataTable(
-        new_files_table(),
+      data_table <- shiny::reactive({
+        shiny::req(filtered_data(), config())
+
+        config <- purrr::pluck(
+          config(),
+          "data_table"
+        )
+
+        filtered_data() %>%
+          purrr::pluck("tables") %>%
+          purrr::pluck(config$table) %>%
+          format_plot_data_with_config(config)
+      })
+
+      output$data_table <- DT::renderDataTable(
+        data_table(),
         server = TRUE,
         selection = 'single'
+      )
+
+      plot_module_server(
+        id = "plot",
+        data = filtered_data,
+        config = shiny::reactive(
+          purrr::pluck(config(), "plot")
+        ),
+        plot_func = shiny::reactive("create_new_submissions_plot")
       )
 
     }

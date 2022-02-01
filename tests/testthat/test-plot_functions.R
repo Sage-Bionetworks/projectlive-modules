@@ -189,3 +189,16 @@ test_that("create_study_timeline_plot",{
 })
 
 
+test_that("create_new_submissions_plot", {
+  data <- dplyr::tibble(
+    "Study" = c("c1", "c2", "c3", "c1", "c2"),
+    "Assay" = c("a1", "a2", "a1", "a1", "a1")
+  )
+  fig <- create_new_submissions_plot(
+    data  = data,
+    x     = "Study",
+    fill  = "Assay"
+  )
+  expect_type(fig, "list")
+  print(fig)
+})

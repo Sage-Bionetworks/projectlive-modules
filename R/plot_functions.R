@@ -521,3 +521,51 @@ create_milestone_reporting_plot <- function(
       panel.background = ggplot2::element_rect(fill = "grey95")
     )
 }
+
+#' Create New Submissions Plot
+#'
+#' @param data A Tibble
+#' @param x A string that is the name of a column in the data
+#' @param fill A string that is the name of a column in the data
+#' @param y_axis_text A list of parameters to
+#' axis.text.y = ggplot2::element_text()
+#'
+#' @importFrom magrittr %>%
+#' @importFrom rlang !!! !!
+create_new_submissions_plot <- function(
+  data,
+  x,
+  fill,
+  y_axis_text = NULL
+){
+  data %>%
+    ggplot2::ggplot() +
+    ggplot2::geom_bar(
+      ggplot2::aes(
+        x = !!rlang::sym(x),
+        fill = !!rlang::sym(fill),
+        color = !!rlang::sym(fill)
+      ),
+      stat = "count",
+      position = "stack",
+      alpha = 0.8,
+      na.rm = TRUE,
+      show.legend = FALSE
+    ) +
+    ggplot2::coord_flip() +
+    ggplot2::labs(
+      title = "",
+      y = "Number of files"
+    ) +
+    sagethemes::theme_sage() +
+    ggplot2::theme(
+      legend.text = ggplot2::element_text(size = 8),
+      axis.text.x  = ggplot2::element_blank(),
+      axis.text.y = rlang::exec(ggplot2::element_text, !!!y_axis_text),
+      text = ggplot2::element_text(size = 10),
+      strip.text.x = ggplot2::element_text(size = 10),
+      legend.position = "right",
+      panel.grid.major.y = ggplot2::element_blank(),
+      panel.background = ggplot2::element_rect(fill = "grey95")
+    )
+}
