@@ -13,16 +13,35 @@ test_that("milestone_reporting_module_server", {
       )
     ),
     {
+      session$setInputs("join_column_choice" = "File Format")
+      session$setInputs("days_choice" = 365)
+      session$setInputs("dt_rows_selected" = 2)
+      session$setInputs("milestone_choice" = 2)
+
       expect_type(join_column_choices(), "character")
       expect_equal(join_column_choices(), c("Data Type", "File Format"))
       expect_type(output$join_column_choice_ui, "list")
-      session$setInputs("join_column_choice" = "File Format")
 
-      expect_type(files_tbl(), "list")
-      expect_type(id_tbl(), "list")
+      expect_true(tibble::is_tibble(files_tbl()))
+      expect_named(
+        files_tbl(),
+        c("File Format", "Data Type", "Date Created", "Milestone Number")
+      )
+      expect_true(nrow(files_tbl()) > 0)
 
-      session$setInputs("days_choice" = 365)
-      session$setInputs("dt_rows_selected" = 2)
+      expect_true(tibble::is_tibble(id_tbl()))
+      expect_named(
+        id_tbl(),
+        c(
+          'File Format',
+          'Data Type',
+          'Designated Upload Date',
+          'Milestone Number',
+          'Expected'
+        )
+      )
+      expect_true(nrow(id_tbl()) > 0)
+
       expect_type(dt_tbl(), "list")
       expect_type(output$dt, "character")
       expect_type(dt_row(), "list")
@@ -37,7 +56,7 @@ test_that("milestone_reporting_module_server", {
 
       expect_type(milestone_choices(), "integer")
       expect_type(output$milestone_choice_ui, "list")
-      session$setInputs("milestone_choice" = 2)
+
       expect_type(plot_title2(), "character")
       expect_type(filtered_id_tbl2(), "list")
       expect_type(filtered_files_tbl2(), "list")

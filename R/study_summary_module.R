@@ -88,6 +88,7 @@ study_summary_module_server <- function(id, data, config){
         shiny::req(filtered_data(), config())
 
         config <- purrr::pluck(config(), "study_summary")
+        config$count_column$count <- F
 
         data <- filtered_data() %>%
           purrr::pluck("tables", config$table) %>%
@@ -123,6 +124,7 @@ study_summary_module_server <- function(id, data, config){
         shiny::req(filtered_data(), config())
 
         config <- purrr::pluck(config(), "data_focus_plot")
+        config$count_column$count <- F
 
         filtered_data() %>%
           purrr::pluck("tables", config$table) %>%

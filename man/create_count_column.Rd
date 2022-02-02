@@ -5,12 +5,10 @@
 \title{Create Count Column
 This function is used to create a count column.}
 \usage{
-create_count_column(tbl, count_column = NULL, complete_columns = NULL)
+create_count_column(tbl, complete_columns = NULL)
 }
 \arguments{
 \item{tbl}{A tibble.}
-
-\item{count_column}{A string.}
 
 \item{complete_columns}{A list of strings that are columns in the data. This
 should be the aesthetic that is intended to be present in the plot even if

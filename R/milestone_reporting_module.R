@@ -140,7 +140,10 @@ milestone_reporting_module_server <- function(id, data, config){
           !is.null(config()),
           "Not tracking milestones or progress reports"
         ))
+
         config <- purrr::pluck(config(), "files_table")
+        config$count_column$count <- F
+
         tbl <- purrr::pluck(data(), "tables", config$name)
         format_plot_data_with_config(tbl, config)
       })
@@ -151,7 +154,10 @@ milestone_reporting_module_server <- function(id, data, config){
           !is.null(config()),
           "Not tracking milestones or progress reports"
         ))
+
         config <- purrr::pluck(config(), "incoming_data_table")
+        config$count_column$count <- F
+
         tbl <- purrr::pluck(data(), "tables", config$name)
         shiny::validate(shiny::need(
           nrow(tbl) > 0,

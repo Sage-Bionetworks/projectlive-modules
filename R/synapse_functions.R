@@ -85,7 +85,7 @@ format_synapse_table_query <- function(
   tbl <- query_string %>%
     syn$tableQuery(includeRowIdAndRowVersion = F) %>%
     purrr::pluck("filepath") %>%
-    readr::read_csv(...)
+    readr::read_csv(..., show_col_types = FALSE)
 
   if(is.null(list_columns)){
     list_columns <- names(tbl)

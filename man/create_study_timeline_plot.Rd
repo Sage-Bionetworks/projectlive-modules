@@ -4,7 +4,14 @@
 \alias{create_study_timeline_plot}
 \title{Create Study Timeline Plot}
 \usage{
-create_study_timeline_plot(data, x, fill, facet, y_axis_text = NULL)
+create_study_timeline_plot(
+  data,
+  x,
+  fill,
+  facet,
+  y = "Count",
+  y_axis_text = NULL
+)
 }
 \arguments{
 \item{data}{A Tibble}
@@ -14,6 +21,8 @@ create_study_timeline_plot(data, x, fill, facet, y_axis_text = NULL)
 \item{fill}{A string that is the name of a column in the data}
 
 \item{facet}{A list of string that are names of columns in the data}
+
+\item{y}{A string that is the name of a column in the data}
 
 \item{y_axis_text}{A list of parameters to
 axis.text.y = ggplot2::element_text()}

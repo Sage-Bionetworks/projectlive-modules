@@ -4,7 +4,7 @@
 \alias{create_new_submissions_plot}
 \title{Create New Submissions Plot}
 \usage{
-create_new_submissions_plot(data, x, fill, y_axis_text = NULL)
+create_new_submissions_plot(data, x, fill, y = "Count", y_axis_text = NULL)
 }
 \arguments{
 \item{data}{A Tibble}
@@ -12,6 +12,8 @@ create_new_submissions_plot(data, x, fill, y_axis_text = NULL)
 \item{x}{A string that is the name of a column in the data}
 
 \item{fill}{A string that is the name of a column in the data}
+
+\item{y}{A string that is the name of a column in the data}
 
 \item{y_axis_text}{A list of parameters to
 axis.text.y = ggplot2::element_text()}

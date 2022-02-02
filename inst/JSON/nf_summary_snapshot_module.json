@@ -25,7 +25,7 @@
       "title": "Publications",
       "table": "publications",
       "columns": ["title"],
-      "icon": "pencil"
+      "icon": "pencil-alt"
     }
   },
   "initiative_activity": {
@@ -110,10 +110,6 @@
     "empty_table_message": "The studies have not uploaded any files yet. Please check back later.",
     "table": "files",
     "filter_column": "initiative",
-    "count_column": {
-      "name": "Count",
-      "complete_columns": ["studyName", "year"]
-    },
     "columns": [
       {
         "name": "studyName",
@@ -133,7 +129,6 @@
     ],
     "plot": {
       "x": "Study Name",
-      "y": "Count",
       "fill": "Resource Type",
       "facet": "Year",
       "x_axis_text": {

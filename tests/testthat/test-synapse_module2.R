@@ -20,15 +20,14 @@ test_that("synapse_module_server2", {
       expect_type(groups_allowed(), "character")
       expect_equal(
         groups_allowed(),
-        # TODO: remove
         c("CDMRP NFRP", "CTF", "GFF", "NCI DHART SPORE", "NFRI", "NTAP")
       )
       expect_type(output$group_selection_ui, "list")
       expect_type(output$group, "character")
       expect_type(tables(), "list")
-      expect_named(tables(), c('files', 'publications', 'studies', 'tools'))
+      expect_named(tables(), c('files', 'publications', 'studies', 'tools', 'incoming_data'))
       expect_type(filtered_tables(), "list")
-      expect_named(filtered_tables(), c('files', 'publications', 'studies', 'tools'))
+      expect_named(filtered_tables(), c('files', 'publications', 'studies', 'tools', 'incoming_data'))
       expect_type(data(), "list")
       expect_named(data(), c("tables", "selected_group"))
     }
