@@ -60,13 +60,34 @@ test_that("nf_gff_study_selection_module_server", {
       "config" = shiny::reactive(get_nf_study_summary_config())
     ),
     {
-      expect_type(output$filter_ui, "list")
       session$setInputs("filter_value" = "All")
-      expect_type(study_table(), "list")
-      expect_type(output$study_table, "character")
       session$setInputs("study_table_rows_selected" = 3)
+
+      expect_type(output$filter_ui, "list")
+
+      expect_true(tibble::is_tibble(study_table()))
+      expect_named(
+        study_table(),
+        c(
+          'Name',
+          'Initiative',
+          'Leads',
+          'Study Status',
+          'Data Status',
+          'Disease Focus',
+          'Individuals',
+          'Specimens',
+          'Assays',
+          'Files',
+          'Tools'
+        )
+      )
+      expect_true(nrow(study_table()) > 0)
+
+      expect_type(output$study_table, "character")
       expect_type(selected_study_name(), "character")
       expect_type(output$study, "list")
+
       res <- session$getReturned()()
       expect_type(res$selected_study, "character")
     }
@@ -81,11 +102,20 @@ test_that("csbc_study_selection_module_server", {
       "config" = shiny::reactiveVal(get_csbc_study_summary_config())
     ),
     {
-      expect_type(output$filter_ui, "list")
       session$setInputs("filter_value" = "All")
-      expect_type(study_table(), "list")
-      expect_type(output$study_table, "character")
       session$setInputs("study_table_rows_selected" = 34)
+
+      expect_type(output$filter_ui, "list")
+
+      expect_true(tibble::is_tibble(study_table()))
+      expect_named(
+        study_table(),
+        c('Grant Name', 'Consortium', 'Assays', 'Files', 'Tools')
+      )
+      expect_true(nrow(study_table()) > 0)
+
+      expect_type(output$study_table, "character")
+
       expect_type(selected_study_name(), "character")
       expect_equal(
         selected_study_name(),

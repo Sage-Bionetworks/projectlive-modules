@@ -82,9 +82,11 @@ study_selection_module_server <- function(id, data, config){
       })
 
       study_table <- shiny::reactive({
+
         shiny::req(data(), config(), filtered_table())
 
         config <- purrr::pluck(config(), "study_table")
+        config$tables$merged$count_column$count <- F
 
         files <- summarise_df_counts(
           data = purrr::pluck(data(), "tables", "files"),

@@ -11,7 +11,8 @@ create_count_column_with_config(tbl, config)
 \item{tbl}{A tibble}
 
 \item{config}{A named list. This list must have a named list named
-create_count_column. This list must have names "name" and "complete_columns"}
+count_column. This list must have names "count" which must be T or F, and
+"complete_columns" which must be a list of column names.}
 }
 \description{
 Create Plot Count Dataframe with Config

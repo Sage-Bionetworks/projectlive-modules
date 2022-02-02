@@ -7,9 +7,9 @@
 create_annotation_activity_plot(
   data,
   x,
-  y,
   fill,
   facet,
+  y = "Count",
   x_axis_text = NULL,
   y_axis_text = NULL
 )
@@ -19,11 +19,11 @@ create_annotation_activity_plot(
 
 \item{x}{A string that is the name of a column in the data}
 
-\item{y}{A string that is the name of a column in the data}
-
 \item{fill}{A string that is the name of a column in the data}
 
 \item{facet}{A list of string that are names of columns in the data}
+
+\item{y}{A string that is the name of a column in the data}
 
 \item{x_axis_text}{A list of parameters to
 axis.text.x = ggplot2::element_text()}

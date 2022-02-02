@@ -83,6 +83,7 @@ new_submissions_module_server <- function(id, data, config){
           purrr::set_names("tables")
 
         filtered_data$minimum_date <- minimum_date()
+        print(filtered_data)
         return(filtered_data)
       })
 
@@ -93,6 +94,8 @@ new_submissions_module_server <- function(id, data, config){
           config(),
           "data_table"
         )
+
+        config$count_column$count <- F
 
         filtered_data() %>%
           purrr::pluck("tables") %>%

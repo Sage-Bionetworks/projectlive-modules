@@ -16,7 +16,6 @@ file_upload_timeline_module_ui <- function(id, button_text = "Download plot tabl
     status = "primary",
     solidHeader = TRUE,
     width = 12,
-    height = 1100,
     collapsible = FALSE
   )
 }

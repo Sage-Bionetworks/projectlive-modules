@@ -51,18 +51,12 @@ plot_module_server <- function(id, data, config, plot_func, ...){
           format_plot_data_with_config(config())
 
         shiny::validate(shiny::need(
-          nrow(data) > 0,
+          all(
+            nrow(data) > 0,
+            sum(data$Count) > 0
+          ),
           config()$empty_table_message
         ))
-
-        count_column <- config()$count_column$name
-
-        if(!is.null(count_column)){
-          shiny::validate(shiny::need(
-            sum(data[count_column]) > 0,
-            config()$empty_table_message
-          ))
-        }
 
         return(data)
       })
@@ -82,21 +76,9 @@ plot_module_server <- function(id, data, config, plot_func, ...){
         plot_obj()
       })
 
-      summarized_plot_data <- shiny::reactive({
-        shiny::req(plot_data())
-        if("Count" %in% colnames(plot_data())) data <- plot_data()
-        else {
-          data <- dplyr::count(
-            plot_data(),
-            dplyr::across(dplyr::everything()), name = "Count"
-          )
-        }
-        return(data)
-      })
-
       output$download_tbl <- shiny::downloadHandler(
         filename = function() stringr::str_c("data-", Sys.Date(), ".csv"),
-        content = function(con) readr::write_csv(summarized_plot_data(), con)
+        content = function(con) readr::write_csv(plot_data(), con)
       )
     }
   )

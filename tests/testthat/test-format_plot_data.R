@@ -9,8 +9,7 @@ test_that("format_plot_data_with_config1", {
       ),
       list(
         "name" = "year",
-        "display_name" = "Year",
-        "type" = "integer"
+        "display_name" = "Year"
       )
     )
   )
@@ -21,10 +20,10 @@ test_that("format_plot_data_with_config1", {
     "loooooooooooooooooooooong", 2001L, "January"
   )
   expected1 <- dplyr::tribble(
-    ~Consortium,       ~Year,
-    "Not Annotated",  2000L,
-    "c1",              2001L,
-    "looooooooooo...", 2001L
+    ~Consortium,       ~Year, ~Count,
+    "Not Annotated",   2000L, 1,
+    "c1",              2001L, 1,
+    "looooooooooo...", 2001L, 1
   )
   expect_equal(
     format_plot_data_with_config(data1, config1),
@@ -45,8 +44,7 @@ test_that("format_plot_data_with_config2", {
       ),
       list(
         "name" = "year",
-        "display_name" = "Year",
-        "type" = "integer"
+        "display_name" = "Year"
       )
     )
   )
@@ -57,9 +55,9 @@ test_that("format_plot_data_with_config2", {
     "loooooooooooooooooooooong", 2001L, "January"
   )
   expected2 <- dplyr::tribble(
-    ~Consortium,       ~Year,
-    "c1",              2001L,
-    "looooooooooo...", 2001L
+    ~Consortium,       ~Year, ~Count,
+    "c1",              2001L, 1,
+    "looooooooooo...", 2001L, 1
   )
   expect_equal(
     format_plot_data_with_config(data2, config2),
@@ -77,8 +75,7 @@ test_that("format_plot_data_with_config3", {
       ),
       list(
         "name" = "year",
-        "display_name" = "Year",
-        "type" = "integer"
+        "display_name" = "Year"
       )
     )
   )
@@ -89,8 +86,9 @@ test_that("format_plot_data_with_config3", {
   )
 
   expected3 <- dplyr::tibble(
-    "Consortium" = c("C1 | C2", "C1"),
-    "Year" = 2020L
+    "Consortium" = c("C1", "C1 | C2"),
+    "Year" = 2020L,
+    "Count" = c(1, 1)
   )
   expect_equal(
     format_plot_data_with_config(data3, config3),
@@ -120,8 +118,9 @@ test_that("format_plot_data_with_config4", {
   )
 
   expected <- dplyr::tibble(
-    "Consortium" = c("C1", "C2", "C1", NA),
-    "Year" = c(2020L, 2020L, 2019L, 2018L)
+    "Consortium" = c("C1", "C1", "C2"),
+    "Year" = c(2019L, 2020L, 2020L),
+    "Count" = c(1, 1, 1)
   )
   expect_equal(
     format_plot_data_with_config(data, config),

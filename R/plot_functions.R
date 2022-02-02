@@ -51,6 +51,7 @@ create_plot_with_config <- function(data, config, plot_func, ...){
 #' @param x A string that is the name of a column in the data
 #' @param fill A string that is the name of a column in the data
 #' @param facet A list of string that are names of columns in the data
+#' @param y A string that is the name of a column in the data
 #' @param y_axis_text A list of parameters to
 #' axis.text.y = ggplot2::element_text()
 #'
@@ -61,17 +62,19 @@ create_initiative_activity_plot <- function(
   x,
   fill,
   facet,
+  y = "Count",
   y_axis_text = NULL
 ){
-  data %>%
+  p <- data %>%
     ggplot2::ggplot() +
     ggplot2::geom_bar(
       ggplot2::aes(
         x = !!rlang::sym(x),
+        y = !!rlang::sym(y),
         fill = !!rlang::sym(fill),
         color = !!rlang::sym(fill)
       ),
-      stat = "count",
+      stat = "identity",
       position = "stack",
       alpha = 0.8,
       na.rm = TRUE,
@@ -82,7 +85,6 @@ create_initiative_activity_plot <- function(
       title = "",
       y = "Number of files"
     ) +
-    sagethemes::theme_sage() +
     ggplot2::facet_grid(cols = ggplot2::vars(!!!rlang::syms(unlist(facet)))) +
     ggplot2::theme(
       legend.text = ggplot2::element_text(size = 8),
@@ -94,6 +96,8 @@ create_initiative_activity_plot <- function(
       panel.grid.major.y = ggplot2::element_blank(),
       panel.background = ggplot2::element_rect(fill = "grey95")
     )
+  if(find_plot_theme()) p <- p + find_plot_theme()()
+  return(p)
 }
 
 #' Create Resources Generated Plot
@@ -102,6 +106,7 @@ create_initiative_activity_plot <- function(
 #' @param x A string that is the name of a column in the data
 #' @param fill A string that is the name of a column in the data
 #' @param facet A list of string that are names of columns in the data
+#' @param y A string that is the name of a column in the data
 #' @param y_axis_text A list of parameters to
 #' axis.text.y = ggplot2::element_text()
 #'
@@ -112,18 +117,20 @@ create_resources_generated_plot <- function(
   x,
   fill,
   facet,
+  y = "Count",
   y_axis_text = NULL
   ){
 
-  data %>%
+  p <- data %>%
     ggplot2::ggplot() +
     ggplot2::geom_bar(
       ggplot2::aes(
         x = !!rlang::sym(x),
+        y = !!rlang::sym(y),
         fill = !!rlang::sym(fill),
         color = !!rlang::sym(fill)
       ),
-      stat = "count",
+      stat = "identity",
       position = "stack",
       alpha = 1.0,
       na.rm = TRUE
@@ -133,7 +140,6 @@ create_resources_generated_plot <- function(
       title = "",
       y = "Number of files per resource"
     ) +
-    sagethemes::theme_sage() +
     ggplot2::facet_grid(cols = ggplot2::vars(!!!rlang::syms(unlist(facet)))) +
     ggplot2::theme(
       legend.text = ggplot2::element_text(size = 8),
@@ -145,6 +151,8 @@ create_resources_generated_plot <- function(
       panel.grid.major.y = ggplot2::element_blank(),
       panel.background = ggplot2::element_rect(fill = "grey95")
     )
+  if(find_plot_theme()) p <- p + find_plot_theme()()
+  return(p)
 }
 
 #' Create File Upload Timeline Plot
@@ -154,6 +162,7 @@ create_resources_generated_plot <- function(
 #' @param y A string that is the name of a column in the data
 #' @param fill A string that is the name of a column in the data
 #' @param facet A list of string that are names of columns in the data
+#' @param y A string that is the name of a column in the data
 #' @param x_axis_text A list of parameters to
 #' axis.text.x = ggplot2::element_text()
 #' @param y_axis_text A list of parameters to
@@ -164,14 +173,14 @@ create_resources_generated_plot <- function(
 create_file_upload_timeline_plot <- function(
   data,
   x,
-  y,
   fill,
   facet,
+  y = "Count",
   x_axis_text = NULL,
   y_axis_text = NULL
   ){
 
-  data %>%
+  p <- data %>%
     ggplot2::ggplot() +
     ggplot2::geom_bar(
       ggplot2::aes(
@@ -186,7 +195,6 @@ create_file_upload_timeline_plot <- function(
     ) +
     ggplot2::coord_flip() +
     ggplot2::labs(title = "", y = "Number of files uploaded") +
-    sagethemes::theme_sage() +
     ggplot2::facet_grid(
       cols = ggplot2::vars(!!!rlang::syms(unlist(facet))),
       scales = "free"
@@ -201,14 +209,16 @@ create_file_upload_timeline_plot <- function(
       panel.grid.major.y = ggplot2::element_blank(),
       panel.background = ggplot2::element_rect(fill = "grey95")
     )
+  if(find_plot_theme()) p <- p + find_plot_theme()()
+  return(p)
 }
 
 #' Create Publication Status Plot
 #'
 #' @param data A Tibble
 #' @param x A string that is the name of a column in the data
-#' @param y A string that is the name of a column in the data
 #' @param fill A string that is the name of a column in the data
+#' @param y A string that is the name of a column in the data
 #' @param x_axis_text A list of parameters to
 #' axis.text.x = ggplot2::element_text()
 #' @param y_axis_text A list of parameters to
@@ -219,12 +229,12 @@ create_file_upload_timeline_plot <- function(
 create_publication_status_plot <- function(
   data,
   x,
-  y,
   fill,
+  y = "Count",
   x_axis_text = NULL,
   y_axis_text = NULL
 ){
-  data %>%
+  p <- data %>%
     ggplot2::ggplot() +
     ggplot2::geom_bar(
       ggplot2::aes(
@@ -238,7 +248,6 @@ create_publication_status_plot <- function(
       position = "stack"
     ) +
     ggplot2::labs(title = "", y = "Number of publications") +
-    sagethemes::theme_sage() +
     ggplot2::theme(
       legend.text = ggplot2::element_blank(),
       axis.text.x = rlang::exec(ggplot2::element_text, !!!x_axis_text),
@@ -248,6 +257,8 @@ create_publication_status_plot <- function(
       panel.grid = ggplot2::element_blank(),
       panel.background = ggplot2::element_rect(fill = "grey95")
     )
+  if(find_plot_theme()) p <- p + find_plot_theme()()
+  return(p)
 }
 
 #' Create Publication Disease Plot
@@ -255,6 +266,7 @@ create_publication_status_plot <- function(
 #' @param data A Tibble
 #' @param x A string that is the name of a column in the data
 #' @param fill A string that is the name of a column in the data
+#' @param y A string that is the name of a column in the data
 #' @param x_axis_text A list of parameters to
 #' axis.text.x = ggplot2::element_text()
 #' @param y_axis_text A list of parameters to
@@ -266,23 +278,25 @@ create_publication_disease_plot <- function(
   data,
   x,
   fill,
+  y = "Count",
   x_axis_text = NULL,
   y_axis_text = NULL
   ){
 
-  data %>%
+  p <- data %>%
     ggplot2::ggplot() +
     ggplot2::geom_bar(
       ggplot2::aes(
         x = !!rlang::sym(x),
+        y = !!rlang::sym(y),
         fill = !!rlang::sym(fill),
         color = !!rlang::sym(fill)
       ),
+      stat = "identity",
       alpha = 0.8,
       position = "stack"
     ) +
     ggplot2::labs(title = "", y = "Number of publications") +
-    sagethemes::theme_sage() +
     ggplot2::theme(
       legend.text = ggplot2::element_blank(),
       axis.text.x = rlang::exec(ggplot2::element_text, !!!x_axis_text),
@@ -292,6 +306,8 @@ create_publication_disease_plot <- function(
       panel.grid = ggplot2::element_blank(),
       panel.background = ggplot2::element_rect(fill = "grey95")
     )
+  if(find_plot_theme()) p <- p + find_plot_theme()()
+  return(p)
 }
 
 #' Create Study Timeline Plot
@@ -300,6 +316,7 @@ create_publication_disease_plot <- function(
 #' @param x A string that is the name of a column in the data
 #' @param fill A string that is the name of a column in the data
 #' @param facet A list of string that are names of columns in the data
+#' @param y A string that is the name of a column in the data
 #' @param y_axis_text A list of parameters to
 #' axis.text.y = ggplot2::element_text()
 #'
@@ -310,23 +327,24 @@ create_study_timeline_plot <- function(
   x,
   fill,
   facet,
+  y = "Count",
   y_axis_text = NULL
   ){
 
-  data %>%
+  p <- data %>%
     ggplot2::ggplot() +
     ggplot2::geom_bar(
       ggplot2::aes(
         x = !!rlang::sym(x),
+        y = !!rlang::sym(y),
         fill = !!rlang::sym(fill),
         color = !!rlang::sym(fill)
       ),
-      stat = "count",
+      stat = "identity",
       alpha = 0.8,
       position = "stack"
     ) +
     ggplot2::labs(title = "", y = "Number of files uploaded") +
-    sagethemes::theme_sage() +
     ggplot2::facet_grid(cols = ggplot2::vars(!!!rlang::syms(unlist(facet)))) +
     ggplot2::theme(
       legend.text = ggplot2::element_blank(),
@@ -339,6 +357,8 @@ create_study_timeline_plot <- function(
       panel.grid = ggplot2::element_blank(),
       panel.background = ggplot2::element_rect(fill = "grey95")
     )
+  if(find_plot_theme()) p <- p + find_plot_theme()()
+  return(p)
 }
 
 #' Create Data Focus Plots
@@ -404,7 +424,7 @@ create_data_focus_plot <- function(
   y_axis_text = NULL
   ){
 
-  data %>%
+  p <- data %>%
     ggplot2::ggplot() +
     ggplot2::geom_bar(
       ggplot2::aes(
@@ -419,7 +439,6 @@ create_data_focus_plot <- function(
     ggplot2::labs(
       title = "", y = "Number of files uploaded", x = fill
     ) +
-    sagethemes::theme_sage() +
     ggplot2::theme(
       legend.text = ggplot2::element_blank(),
       axis.text.x  = ggplot2::element_blank(),
@@ -430,15 +449,17 @@ create_data_focus_plot <- function(
       panel.grid = ggplot2::element_blank(),
       panel.background = ggplot2::element_rect(fill = "grey95")
     )
+  if(find_plot_theme()) p <- p + find_plot_theme()()
+  return(p)
 }
 
 #' Create Annotation Activity Plot
 #'
 #' @param data A Tibble
 #' @param x A string that is the name of a column in the data
-#' @param y A string that is the name of a column in the data
 #' @param fill A string that is the name of a column in the data
 #' @param facet A list of string that are names of columns in the data
+#' @param y A string that is the name of a column in the data
 #' @param x_axis_text A list of parameters to
 #' axis.text.x = ggplot2::element_text()
 #' @param y_axis_text A list of parameters to
@@ -449,14 +470,14 @@ create_data_focus_plot <- function(
 create_annotation_activity_plot <- function(
   data,
   x,
-  y,
   fill,
   facet,
+  y = "Count",
   x_axis_text = NULL,
   y_axis_text = NULL
   ){
 
-  data %>%
+  p <- data %>%
     ggplot2::ggplot() +
     ggplot2::geom_bar(
       ggplot2::aes(
@@ -471,7 +492,6 @@ create_annotation_activity_plot <- function(
     ) +
     ggplot2::coord_flip() +
     ggplot2::labs(title = "", y = "Number of experimental data files") +
-    sagethemes::theme_sage() +
     ggplot2::facet_grid(
       cols = ggplot2::vars(!!!rlang::syms(unlist(facet))),
       scales = "fixed"
@@ -486,6 +506,8 @@ create_annotation_activity_plot <- function(
       panel.grid.major.y = ggplot2::element_blank(),
       panel.background = ggplot2::element_rect(fill = "grey95")
     )
+  if(find_plot_theme()) p <- p + find_plot_theme()()
+  return(p)
 }
 
 create_milestone_reporting_plot <- function(
@@ -494,7 +516,7 @@ create_milestone_reporting_plot <- function(
   title = NULL,
   x_axis_text = NULL
   ){
-  data %>%
+   p <- data %>%
     ggplot2::ggplot() +
     ggplot2::geom_bar(
       ggplot2::aes(
@@ -508,7 +530,6 @@ create_milestone_reporting_plot <- function(
       show.legend = FALSE,
       position = ggplot2::position_dodge()
     ) +
-    sagethemes::theme_sage() +
     ggplot2::facet_grid(cols = ggplot2::vars(!!rlang::sym(facet))) +
     ggplot2::ggtitle(title) +
     ggplot2::theme(
@@ -520,6 +541,8 @@ create_milestone_reporting_plot <- function(
       panel.grid.major.y = ggplot2::element_blank(),
       panel.background = ggplot2::element_rect(fill = "grey95")
     )
+  if(find_plot_theme()) p <- p + find_plot_theme()()
+  return(p)
 }
 
 #' Create New Submissions Plot
@@ -527,6 +550,7 @@ create_milestone_reporting_plot <- function(
 #' @param data A Tibble
 #' @param x A string that is the name of a column in the data
 #' @param fill A string that is the name of a column in the data
+#' @param y A string that is the name of a column in the data
 #' @param y_axis_text A list of parameters to
 #' axis.text.y = ggplot2::element_text()
 #'
@@ -536,17 +560,19 @@ create_new_submissions_plot <- function(
   data,
   x,
   fill,
+  y = "Count",
   y_axis_text = NULL
 ){
-  data %>%
+  p <- data %>%
     ggplot2::ggplot() +
     ggplot2::geom_bar(
       ggplot2::aes(
         x = !!rlang::sym(x),
+        y = !!rlang::sym(y),
         fill = !!rlang::sym(fill),
         color = !!rlang::sym(fill)
       ),
-      stat = "count",
+      stat = "identity",
       position = "stack",
       alpha = 0.8,
       na.rm = TRUE,
@@ -557,7 +583,6 @@ create_new_submissions_plot <- function(
       title = "",
       y = "Number of files"
     ) +
-    sagethemes::theme_sage() +
     ggplot2::theme(
       legend.text = ggplot2::element_text(size = 8),
       axis.text.x  = ggplot2::element_blank(),
@@ -568,4 +593,17 @@ create_new_submissions_plot <- function(
       panel.grid.major.y = ggplot2::element_blank(),
       panel.background = ggplot2::element_rect(fill = "grey95")
     )
+  if(find_plot_theme()) p <- p + find_plot_theme()()
+  return(p)
+}
+
+#' Find Plot Theme
+find_plot_theme <- function(){
+  theme_set <- all(
+    !is.null(.GlobalEnv$THEME),
+    is.function(.GlobalEnv$THEME)
+  )
+
+  if(theme_set) return(.GlobalEnv$THEME)
+  else return(F)
 }

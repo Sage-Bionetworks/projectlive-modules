@@ -14,13 +14,10 @@ test_that("plot_module_server_nf1", {
       "plot_func" = shiny::reactiveVal("create_initiative_activity_plot")
     ),
     {
-      expect_type(plot_data(), "list")
+      expect_true(tibble::is_tibble(plot_data()))
+      expect_named(plot_data(), c("Species", "Initiative", "Access Type", "Count"))
       expect_type(output$plot, "character")
-      expect_type(summarized_plot_data(), "list")
-      expect_named(
-        summarized_plot_data(),
-        c("Species", "Initiative", "Access Type", "Count")
-      )
+      expect_type(output$download_tbl, "character")
     }
   )
 })
@@ -36,13 +33,10 @@ test_that("plot_module_server_nf2", {
       "plot_func" = shiny::reactiveVal("create_publication_status_plot")
     ),
     {
-      expect_type(plot_data(), "list")
+      expect_true(tibble::is_tibble(plot_data()))
+      expect_named(plot_data(), c("Year", "Study Name", "Count"))
       expect_type(output$plot, "character")
-      expect_type(summarized_plot_data(), "list")
-      expect_named(
-        summarized_plot_data(),
-        c("Year", "Study Name", "Count")
-      )
+      expect_type(output$download_tbl, "character")
     }
   )
 })
@@ -58,13 +52,10 @@ test_that("plot_module_server_nf3", {
       "plot_func" = shiny::reactiveVal("create_publication_status_plot")
     ),
     {
-      expect_type(plot_data(), "list")
+      expect_true(tibble::is_tibble(plot_data()))
+      expect_named(plot_data(), c("Year", "Study Name", "Count"))
       expect_type(output$plot, "character")
-      expect_type(summarized_plot_data(), "list")
-      expect_named(
-        summarized_plot_data(),
-        c("Year", "Study Name", "Count")
-      )
+      expect_type(output$download_tbl, "character")
     }
   )
 })
@@ -80,13 +71,10 @@ test_that("plot_module_server_csbc1", {
       "plot_func" = shiny::reactiveVal("create_initiative_activity_plot")
     ),
     {
-      expect_type(plot_data(), "list")
+      expect_true(tibble::is_tibble(plot_data()))
+      expect_named(plot_data(), c('Year', 'Consortium', 'Access Type', 'Count'))
       expect_type(output$plot, "character")
-      expect_type(summarized_plot_data(), "list")
-      expect_named(
-        summarized_plot_data(),
-        c('Year', 'Consortium', 'Access Type', 'Count')
-      )
+      expect_type(output$download_tbl, "character")
     }
   )
 })
@@ -102,13 +90,10 @@ test_that("plot_module_server_csbc2", {
       "plot_func" = shiny::reactiveVal("create_publication_disease_plot")
     ),
     {
-      expect_type(plot_data(), "list")
+      expect_true(tibble::is_tibble(plot_data()))
+      expect_named(plot_data(), c('Year', 'Tissue', 'Count'))
       expect_type(output$plot, "character")
-      expect_type(summarized_plot_data(), "list")
-      expect_named(
-        summarized_plot_data(),
-        c('Year', 'Tissue', 'Count')
-      )
+      expect_type(output$download_tbl, "character")
     }
   )
 })
@@ -124,13 +109,10 @@ test_that("plot_module_server_csbc3", {
       "plot_func" = shiny::reactiveVal("create_resources_generated_plot")
     ),
     {
-      expect_type(plot_data(), "list")
+      expect_true(tibble::is_tibble(plot_data()))
+      expect_named(plot_data(), c('Year', 'Grant Name', 'Theme', 'Count'))
       expect_type(output$plot, "character")
-      expect_type(summarized_plot_data(), "list")
-      expect_named(
-        summarized_plot_data(),
-        c('Year', 'Grant Name', 'Theme', 'Count')
-      )
+      expect_type(output$download_tbl, "character")
     }
   )
 })

@@ -95,3 +95,46 @@ test_that("create_count_column_with_config", {
     expected_result1
   )
 })
+
+test_that("create_count_column_with_config_no_complete", {
+  tbl <- dplyr::tribble(
+    ~Lead,  ~fill,  ~Year,
+    "a",    "x",    2000L,
+    "a",    "x",    2000L,
+    "a",    "x",    2001L,
+    "b",    "x",    2001L,
+    "c",    NA,     NA
+  )
+
+  config <- list()
+
+  expected_result1 <- dplyr::tribble(
+    ~Lead, ~fill, ~Year,  ~Count,
+    "a",   "x",   2000L,  2L,
+    "a",   "x",   2001L,  1L,
+    "b",   "x",   2001L,  1L
+  )
+
+  expect_equal(
+    create_count_column_with_config(tbl, config),
+    expected_result1
+  )
+})
+
+test_that("create_count_column_with_config_no_count", {
+  tbl <- dplyr::tribble(
+    ~Lead,  ~fill,  ~Year,
+    "a",    "x",    2000L,
+    "a",    "x",    2000L,
+    "a",    "x",    2001L,
+    "b",    "x",    2001L,
+    "c",    NA,     NA
+  )
+
+  config <- list("count_column" = list("count" = F))
+
+  expect_equal(
+    create_count_column_with_config(tbl, config),
+    tbl
+  )
+})

@@ -25,13 +25,14 @@ test_that("create_initiative_activity_plot", {
   data <- dplyr::tibble(
     "Consortium" = c("c1", "c2", "c3", "c1", "c2"),
     "Access Type" = c("a1", "a2", "a1", "a1", "a1"),
-    "Year" = forcats::as_factor(c(2001L, 2001L, 2001L, 2002L, 2002L))
+    "Year" = forcats::as_factor(c(2001L, 2001L, 2001L, 2002L, 2002L)),
+    "Count" = c(1, 1, 1, 1, 1)
   )
   fig <- create_initiative_activity_plot(
     data  = data,
     x     = "Consortium",
     fill  = "Access Type",
-    "Year"
+    facet = "Year"
   ) %>%
     plotly::ggplotly(tooltip = c("count", "Access Type"))
   expect_type(fig, "list")
@@ -42,7 +43,8 @@ test_that("create_resources_generated_plot",{
   data <- dplyr::tibble(
     "Study Name" = c("s1", "s1", "s2", "s3"),
     "Data Type" = c("d1", "d2", "d2", "d3"),
-    "Year" = c(2000L, 2000L, 2001L, 2002L)
+    "Year" = c(2000L, 2000L, 2001L, 2002L),
+    "Count" = c(1, 1, 1, 1)
   )
 
   fig <- create_resources_generated_plot(
@@ -82,8 +84,7 @@ test_that("create_publication_disease_plot",{
     data,
     x = "Year",
     fill = "Manifestation"
-  ) %>%
-    plotly::ggplotly(tooltip = c("Count", "fill"))
+  )
   expect_type(fig, "list")
 })
 
@@ -183,8 +184,7 @@ test_that("create_study_timeline_plot",{
     fill = "Resource Type",
     facet = list("Year", "Month")
 
-  ) %>%
-    plotly::ggplotly(tooltip = c("Count", "fill"))
+  )
   expect_type(fig, "list")
 })
 
@@ -192,7 +192,8 @@ test_that("create_study_timeline_plot",{
 test_that("create_new_submissions_plot", {
   data <- dplyr::tibble(
     "Study" = c("c1", "c2", "c3", "c1", "c2"),
-    "Assay" = c("a1", "a2", "a1", "a1", "a1")
+    "Assay" = c("a1", "a2", "a1", "a1", "a1"),
+    "Count" = c(1, 1, 1, 1, 1)
   )
   fig <- create_new_submissions_plot(
     data  = data,
