@@ -51,5 +51,7 @@ format_plot_data_with_config <- function(tbl, config){
     result <- tidyr::drop_na(result)
   }
 
-  rename_df_columns_with_config(result, config)
+  result %>%
+    reorder_table_with_config(config) %>%
+    rename_df_columns_with_config(config)
 }

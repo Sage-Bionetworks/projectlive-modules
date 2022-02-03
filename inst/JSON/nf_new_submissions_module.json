@@ -53,6 +53,11 @@
   "plot": {
     "table": "files",
     "empty_table_message": "No files uploaded within the selected number of days",
+    "reorder_table": {
+      "value_column": "Count",
+      "reorder_column": "studyName",
+      "ascending": true
+    },
     "columns": [
       {
         "name": "studyName",
@@ -73,6 +78,6 @@
         "size": 10
       }
     },
-    "tooltips": ["count", "fill"]
+    "tooltips": ["fill", "C"]
   }
 }
