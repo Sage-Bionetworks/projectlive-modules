@@ -42,8 +42,8 @@ create_plot_with_config <- function(data, config, plot_func, ...){
     plotly::layout(
       autosize = T
     )
-
 }
+
 
 #' Create Initiative Activity Plot
 #'
@@ -563,8 +563,10 @@ create_new_submissions_plot <- function(
   y = "Count",
   y_axis_text = NULL
 ){
+
+  text2 <- 1:nrow(data)
   p <- data %>%
-    ggplot2::ggplot() +
+    ggplot2::ggplot(ggplot2::aes(C = !!rlang::sym(y))) +
     ggplot2::geom_bar(
       ggplot2::aes(
         x = !!rlang::sym(x),
@@ -592,7 +594,8 @@ create_new_submissions_plot <- function(
       legend.position = "right",
       panel.grid.major.y = ggplot2::element_blank(),
       panel.background = ggplot2::element_rect(fill = "grey95")
-    )
+    ) +
+    ggplot2:: scale_y_continuous(trans = "log10")
   if(find_plot_theme()) p <- p + find_plot_theme()()
   return(p)
 }
