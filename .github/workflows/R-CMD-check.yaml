@@ -23,12 +23,20 @@ jobs:
           - {os: ubuntu-20.04, r: '4.1.0', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
 
     env:
+      VENV_NAME: virtual_env
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       RSPM: ${{ matrix.config.rspm }}
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - uses: actions/checkout@v2
+
+      - name: Create and Activate Python Virtual Environment
+        shell: bash
+        run: |
+          python3 -m venv "${{ env.VENV_NAME }}"
+          chmod 755 "${{ env.VENV_NAME }}"/bin/activate
+          source "${{ env.VENV_NAME }}"/bin/activate
 
       - name: Install libcurl
         if: ${{ matrix.config.os == 'ubuntu-20.04' }}
