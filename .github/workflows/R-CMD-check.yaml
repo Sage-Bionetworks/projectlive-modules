@@ -42,6 +42,20 @@ jobs:
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
 
+      - name: Install Miniconda
+        run: |
+          Rscript -e "remotes::install_github('rstudio/reticulate')"
+          Rscript -e "reticulate::install_miniconda()"
+
+      - name: Add Miniconda to .Rprofile on macOS
+        if: runner.os == 'macOS-latest'
+        run: echo "options(reticulate.conda_binary = reticulate:::miniconda_conda())" >> .Rprofile
+
+      - name: Install Python deps
+        run: |
+          Rscript -e "reticulate::py_discover_config()"
+          Rscript -e "reticulate::py_install(c('pandas', 'numpy', 'boto3', 'synapseclient'), pip = TRUE)"
+
       - uses: r-lib/actions/setup-renv@v2
         with:
           cache-version: 2
