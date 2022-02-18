@@ -38,6 +38,12 @@ jobs:
           chmod 755 "${{ env.VENV_NAME }}"/bin/activate
           source "${{ env.VENV_NAME }}"/bin/activate
 
+      - name: Install Python Dependencies
+        shell: bash
+        run: |
+          source "${{ env.VENV_NAME }}"/bin/activate
+          pip3 install synapseclient
+
       - name: Install libcurl
         if: ${{ matrix.config.os == 'ubuntu-20.04' }}
         run: sudo apt-get install libcurl4-openssl-dev
