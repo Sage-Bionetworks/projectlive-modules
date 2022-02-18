@@ -46,13 +46,9 @@ jobs:
         with:
           cache-version: 2
 
-      - name: Install Miniconda
+      - name: Install Miniconda and Python deps
         run: |
-          Rscript -e "remotes::install_github('rstudio/reticulate')"
           Rscript -e "reticulate::install_miniconda()"
-
-      - name: Install Python deps
-        run: |
           Rscript -e "reticulate::py_discover_config()"
           Rscript -e "reticulate::py_install(c('pandas', 'numpy', 'boto3', 'synapseclient'), pip = TRUE)"
 

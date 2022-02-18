@@ -3,7 +3,7 @@ utils::globalVariables(c(".", "where", "OAUTH_LIST"))
 get_system_path <- function(name, extension, folder){
   name %>%
     stringr::str_c(extension) %>%
-    file.path(system.file(folder, package = "projectlive.modules"), .)
+    file.path(system.file(folder, package = "projectlive-modules"), .)
 }
 
 get_rds_path <- purrr::partial(

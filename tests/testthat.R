@@ -1,4 +1,4 @@
 library(testthat)
-library(projectlive.modules)
+library(projectlive-modules)
 
-test_check("projectlive.modules")
+test_check("projectlive-modules")
