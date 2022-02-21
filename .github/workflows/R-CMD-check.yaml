@@ -42,6 +42,13 @@ jobs:
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
 
+      - name: Install Miniconda and packages
+        run: |
+          Rscript -e "install.packages("reticulate")"
+          Rscript -e "reticulate::install_miniconda()"
+          Rscript -e "reticulate::py_discover_config()"
+          Rscript -e "reticulate::py_install(c('pandas', 'numpy', 'boto3', 'synapseclient'), pip = TRUE)"
+
       - uses: r-lib/actions/setup-renv@v2
         with:
           cache-version: 2
