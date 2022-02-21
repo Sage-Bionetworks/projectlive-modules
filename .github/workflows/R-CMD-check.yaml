@@ -44,7 +44,7 @@ jobs:
 
       - name: Install Miniconda and packages
         run: |
-          Rscript -e "install.packages("reticulate")"
+          Rscript -e "install.packages('reticulate')"
           Rscript -e "reticulate::install_miniconda()"
           Rscript -e "reticulate::py_discover_config()"
           Rscript -e "reticulate::py_install(c('pandas', 'numpy', 'boto3', 'synapseclient'), pip = TRUE)"
