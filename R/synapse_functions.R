@@ -1,5 +1,6 @@
 create_synapse_login <- function(){
   if("use_conda_env.R" %in% list.files("R")) source("R/use_conda_env.R")
+  reticulate::usevirtualenv("virtual_env", required = T)
   synapseclient <- reticulate::import("synapseclient")
   syn <- synapseclient$Synapse()
   syn$login()
