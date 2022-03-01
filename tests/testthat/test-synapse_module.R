@@ -2,12 +2,6 @@ test_that("synapse_module_ui", {
   expect_type(synapse_module_ui("id"), "list")
 })
 
-
-synapseclient <- reticulate::import("synapseclient", delay_load = TRUE)
-syn <- synapseclient$Synapse()
-invisible(syn$login())
-
-
 test_that("synapse_module_server", {
   shiny::testServer(
     synapse_module_server,
