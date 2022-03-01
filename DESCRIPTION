@@ -37,7 +37,6 @@ Imports:
   readr (>= 1.0),
   reticulate (>= 1.0),
   rlang (>= 0.4),
-  sagethemes,
   shiny (>= 1.4),
   shinydashboard (>= 0.7),
   stringr (>= 1.0),
@@ -45,5 +44,3 @@ Imports:
   tidyr (>= 1.0),
   waiter (>= 0.2),
   yaml (>= 2.0)
-Remotes:
-  Sage-Bionetworks/sagethemes@main
