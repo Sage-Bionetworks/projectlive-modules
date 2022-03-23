@@ -1,4 +1,4 @@
-Package: projectlive.modules
+Package: projectliveModules
 Title: Modules for Project Live shiny apps
 Version: 0.7.4
 Authors@R: 
