@@ -1,5 +1,5 @@
-# projectlive.modules
+# projectliveModules
 Modules for Project Live apps across different project
 # Installation
-devtools::install_github("Sage-Bionetworks/projectlive.modules")
-renv::install("Sage-Bionetworks/projectlive.modules")
+devtools::install_github("Sage-Bionetworks/projectliveModules")
+renv::install("Sage-Bionetworks/projectliveModules")
