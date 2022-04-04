@@ -18,7 +18,19 @@ test_that("nf_study_selection_module_server1", {
       expect_type(study_table(), "list")
       expect_type(output$study_table, "character")
       session$setInputs("study_table_rows_selected" = 3)
+      expect_true(tibble::is_tibble(selected_study_row()))
+      expect_equal(nrow(selected_study_row()), 1)
+
+      expect_type(selected_study_id(), "character")
+      expect_equal(
+        selected_study_id(),
+        "syn4939902"
+      )
       expect_type(selected_study_name(), "character")
+      expect_equal(
+        selected_study_name(),
+        "A Nerve Sheath Tumor Bank from Patients with NF1"
+      )
       expect_type(output$study, "list")
       res <- session$getReturned()()
       expect_type(res$selected_study, "character")
@@ -28,6 +40,44 @@ test_that("nf_study_selection_module_server1", {
 })
 
 test_that("nf_study_selection_module_server2", {
+  shiny::testServer(
+    study_selection_module_server,
+    args = list(
+      "data" = shiny::reactiveVal(nf_data),
+      "config" = shiny::reactiveVal(get_nf_study_summary_config())
+    ),
+    {
+      expect_type(filter_choices(), "character")
+      expect_type(output$filter_ui, "list")
+      session$setInputs("filter_value" = "All")
+      expect_type(filtered_table(), "list")
+      expect_type(study_table(), "list")
+      expect_type(output$study_table, "character")
+      session$setInputs("study_table_rows_selected" = 9)
+      expect_true(tibble::is_tibble(selected_study_row()))
+      expect_equal(nrow(selected_study_row()), 1)
+
+      expect_type(selected_study_id(), "character")
+      expect_equal(
+        selected_study_id(),
+        "syn11374333"
+      )
+      expect_type(selected_study_name(), "character")
+      expect_equal(
+        selected_study_name(),
+        "Cutaneous Neurofibroma - Models, Biology, and Translation"
+      )
+      expect_type(output$study, "list")
+      res <- session$getReturned()()
+      expect_type(res$selected_study, "character")
+
+    }
+  )
+})
+
+
+
+test_that("nf_study_selection_module_server3", {
   shiny::testServer(
     study_selection_module_server,
     args = list(
@@ -62,6 +112,8 @@ test_that("nf_gff_study_selection_module_server", {
     {
       session$setInputs("filter_value" = "All")
       session$setInputs("study_table_rows_selected" = 3)
+      expect_true(tibble::is_tibble(selected_study_row()))
+      expect_equal(nrow(selected_study_row()), 1)
 
       expect_type(output$filter_ui, "list")
 
@@ -70,6 +122,7 @@ test_that("nf_gff_study_selection_module_server", {
         study_table(),
         c(
           'Name',
+          'Id',
           'Initiative',
           'Leads',
           'Study Status',
@@ -104,6 +157,19 @@ test_that("csbc_study_selection_module_server", {
     {
       session$setInputs("filter_value" = "All")
       session$setInputs("study_table_rows_selected" = 34)
+      expect_true(tibble::is_tibble(selected_study_row()))
+      expect_equal(nrow(selected_study_row()), 1)
+
+      expect_type(selected_study_id(), "character")
+      expect_equal(
+        selected_study_id(),
+        "H Lee Moffitt Cancer Center and Research Institute"
+      )
+      expect_type(selected_study_name(), "character")
+      expect_equal(
+        selected_study_name(),
+        "H Lee Moffitt Cancer Center and Research Institute"
+      )
 
       expect_type(output$filter_ui, "list")
 
@@ -116,11 +182,6 @@ test_that("csbc_study_selection_module_server", {
 
       expect_type(output$study_table, "character")
 
-      expect_type(selected_study_name(), "character")
-      expect_equal(
-        selected_study_name(),
-        "H Lee Moffitt Cancer Center and Research Institute"
-      )
       expect_type(output$study, "list")
       res <- session$getReturned()()
       expect_type(res$selected_study, "character")
