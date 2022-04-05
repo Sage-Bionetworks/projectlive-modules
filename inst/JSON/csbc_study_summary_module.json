@@ -7,6 +7,7 @@
       "studies": {
         "columns": [
           "grantName",
+          "grantId",
           "consortium"
         ]
       },
@@ -50,6 +51,7 @@
     }
   },
   "study_name_column": "Grant Name",
+  "study_id_column": "Grant Name",
   "study_summary": {
     "table": "studies",
     "filter_column": "grantName",

@@ -75,6 +75,7 @@ study_summary_module_server <- function(id, data, config){
       ns <- session$ns
 
       output$header_text <- shiny::renderText({
+        print(data()$tables$files)
         shiny::req(config())
         glue::glue(config()$header_text)
       })

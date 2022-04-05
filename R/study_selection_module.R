@@ -115,16 +115,38 @@ study_selection_module_server <- function(id, data, config){
         selection = 'single'
       )
 
-      selected_study_name <- shiny::reactive({
-        shiny::req(study_table(),
+      selected_study_row <- shiny::reactive({
+        shiny::req(
+          study_table(),
           config(),
           !is.null(input$study_table_rows_selected)
         )
 
+        study_table() %>%
+          dplyr::slice(input$study_table_rows_selected)
+      })
+
+      selected_study_id <- shiny::reactive({
+        shiny::req(
+          selected_study_row,
+          config()
+        )
+
+        column_name <- purrr::pluck(config(), "study_id_column")
+
+        selected_study_row() %>%
+          dplyr::pull(column_name)
+      })
+
+      selected_study_name <- shiny::reactive({
+        shiny::req(
+          selected_study_row,
+          config()
+        )
+
         column_name <- purrr::pluck(config(), "study_name_column")
 
-        study_table() %>%
-          dplyr::slice(input$study_table_rows_selected) %>%
+        selected_study_row() %>%
           dplyr::pull(column_name)
       })
 
@@ -140,18 +162,20 @@ study_selection_module_server <- function(id, data, config){
       })
 
       filtered_data <- shiny::reactive({
-        shiny::req(config(), data(), selected_study_name())
+        shiny::req(config(), data(), selected_study_id())
 
         column     <- config()$study_table$join_column
+        study_id   <- selected_study_id()
         study_name <- selected_study_name()
         data       <- data()
+
 
         filtered_tables <- data %>%
           purrr::pluck("tables") %>%
           purrr::map(
             filter_list_column,
             column,
-            study_name
+            study_id
           )
 
         data$tables         <- filtered_tables

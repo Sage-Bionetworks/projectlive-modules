@@ -31,7 +31,7 @@ incoming_data <-
   dplyr::mutate(
     "date_uploadestimate" = lubridate::mdy(date_uploadestimate),
   ) %>%
-  dplyr::select(-"projectSynID") %>%
+  dplyr::rename("studyId" = "projectSynID") %>%
   dplyr::filter(
     !is.na(.data$date_uploadestimate) | !is.na(.data$reportMilestone)
   ) %>%
@@ -42,7 +42,8 @@ incoming_data <-
     .data$date_uploadestimate,
     .data$reportMilestone,
     .data$fundingAgency,
-    .data$studyName
+    .data$studyName,
+    .data$studyId,
   ) %>%
   dplyr::summarise("estimatedMinNumSamples" = sum(.data$estimatedMinNumSamples)) %>%
   dplyr::ungroup() %>%
@@ -140,8 +141,7 @@ csbc_studies <-
   get_synapse_tbl(
     syn,
     "syn21918972"
-  ) %>%
-  dplyr::select(-c("ROW_ID", "ROW_VERSION"))
+  )
 
 saveRDS(csbc_studies, "inst/RDS/csbc_studies.rds")
 
@@ -163,10 +163,10 @@ csbc_files <-
     )
   ) %>%
   format_date_columns() %>%
-  dplyr::select(-c("createdOn", "ROW_ID", "ROW_VERSION", "ROW_ETAG")) %>%
+  dplyr::select(-c("createdOn")) %>%
   dplyr::mutate( "accessType" = "PUBLIC") %>%
   dplyr::inner_join(
-    dplyr::select(csbc_studies, "theme", "grantName"),
+    dplyr::select(csbc_studies, "theme", "grantName", "grantId"),
     by = "grantName",
   )
 
@@ -187,6 +187,10 @@ csbc_publications <-
   ) %>%
   dplyr::mutate(
     "publicationYear" = as.factor(.data$publicationYear)
+  ) %>%
+  dplyr::inner_join(
+    dplyr::select(csbc_studies, "grantName", "grantId"),
+    by = "grantName",
   )
 
 saveRDS(csbc_publications, "inst/RDS/csbc_publications.rds")
