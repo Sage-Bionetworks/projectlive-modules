@@ -1,0 +1,45 @@
+{
+  "data_table": {
+    "count_column": {
+      "count": false
+    },
+    "table": "files",
+    "columns": [
+      {
+        "name": "name",
+        "display_name": "Name"
+      },
+      {
+        "name": "status",
+        "display_name": "Status"
+      }
+    ]
+  },
+  "plot":{
+    "table": "files",
+    "empty_table_message": "The investigator/investigators has/have not uploaded any files yet. Please check back later.",
+    "columns": [
+      {
+        "name": "status",
+        "display_name": "Status"
+      },
+      {
+        "name": "month",
+        "display_name": "Month"
+      },
+      {
+        "name": "type",
+        "display_name": "Type"
+      }
+    ],
+    "plot": {
+      "x": "Status",
+      "fill": "Type",
+      "facet": "Month"
+    },
+    "tooltips": [
+      "count",
+      "fill"
+    ]
+  }
+}
