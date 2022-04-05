@@ -82,31 +82,23 @@ study_selection_module_server <- function(id, data, config){
       })
 
       study_table <- shiny::reactive({
-        print("test1")
 
         shiny::req(data(), config(), filtered_table())
 
         config <- purrr::pluck(config(), "study_table")
         config$tables$merged$count_column$count <- F
 
-        print("test2")
-        print(purrr::pluck(data(), "tables", "files"))
-        print(config$join_column)
-        print(config$tables$files$columns)
-
         files <- summarise_df_counts(
           data = purrr::pluck(data(), "tables", "files"),
           group_column = config$join_column,
           columns = config$tables$files$columns
         )
-        print("test3")
 
         tools <- summarise_df_counts(
           data = purrr::pluck(data(), "tables", "tools"),
           group_column = config$join_column,
           columns = config$tables$tools$columns
         )
-        print("test4")
 
         filtered_table() %>%
           dplyr::select(dplyr::all_of(
