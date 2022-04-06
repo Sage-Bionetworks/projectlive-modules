@@ -66,7 +66,7 @@ get_nf_ctf_data <- function(){
 }
 
 get_nf_synapse_config <- function(){
-  "nf_synapse_module" %>%
+  "nf_dev_synapse_module" %>%
     get_json_path() %>%
     jsonlite::read_json()
 }

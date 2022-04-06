@@ -25,7 +25,7 @@ test_that("milestone_reporting_module_server", {
       expect_true(tibble::is_tibble(files_tbl()))
       expect_named(
         files_tbl(),
-        c("File Format", "Data Type", "Date Created", "Milestone Number")
+        c('File Format', 'Data Type', 'Date Created', 'Progress Report Number')
       )
       expect_true(nrow(files_tbl()) > 0)
 
@@ -36,7 +36,7 @@ test_that("milestone_reporting_module_server", {
           'File Format',
           'Data Type',
           'Designated Upload Date',
-          'Milestone Number',
+          'Progress Report Number',
           'Expected'
         )
       )

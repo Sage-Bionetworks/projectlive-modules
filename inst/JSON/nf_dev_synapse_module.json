@@ -1,0 +1,27 @@
+{
+  "group_text": "You are now viewing studies funded by {input$selected_group}. Navigate to the tabs at the top of the page to get more information about the participating investigators and the various resources that they have generated.",
+  "acl_synapse_id": "syn22281727",
+  "team_filter_column": "fundingAgency",
+  "team_table": {
+    "synapse_id": "syn22279138",
+    "team_column": "TeamID",
+    "group_column": "Permission List"
+  },
+  "data_files": {
+    "files": {
+      "synapse_id": "syn24474805"
+    },
+    "publications": {
+      "synapse_id": "syn24474886"
+    },
+    "studies": {
+      "synapse_id": "syn24474946"
+    },
+    "tools": {
+      "synapse_id": "syn24475065"
+    },
+    "incoming_data": {
+      "synapse_id": "syn25257326"
+    }
+  }
+}
