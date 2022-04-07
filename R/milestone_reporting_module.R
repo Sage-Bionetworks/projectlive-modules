@@ -300,14 +300,21 @@ milestone_reporting_module_server <- function(id, data, config){
       # plot2 ----
 
       milestone_choices <- shiny::reactive({
-        shiny::req(id_tbl(), config())
+        shiny::req(files_tbl(), id_tbl(), config())
         config <- config()
         milestone_column   <- rlang::sym(config$milestone_column)
 
-        id_tbl() %>%
+        milestones1 <- id_tbl() %>%
           dplyr::pull(!!milestone_column) %>%
           unique() %>%
           sort()
+
+        milestones2 <- files_tbl() %>%
+          dplyr::pull(!!milestone_column) %>%
+          unique() %>%
+          sort()
+
+        base::union(milestones1, milestones2)
       })
 
       output$milestone_choice_ui <- shiny::renderUI({
