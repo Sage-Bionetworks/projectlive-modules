@@ -55,7 +55,7 @@ server <- function(input, output, session) {
   summary_snapshot_module_server(
     id = "summary_snapshot_module",
     data = data,
-    config = shiny::reactive(get_cbsc_summary_snapshot_config())
+    config = shiny::reactive(get_csbc_summary_snapshot_config())
   )
 
   publication_status_module_server(
