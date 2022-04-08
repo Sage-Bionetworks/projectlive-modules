@@ -173,7 +173,7 @@ csbc_files <-
 saveRDS(csbc_files, "inst/RDS/csbc_files.rds")
 
 
-csbc_publications <-
+csbc_publications1 <-
   get_synapse_tbl(
     syn,
     "syn21868591",
@@ -187,11 +187,22 @@ csbc_publications <-
   ) %>%
   dplyr::mutate(
     "publicationYear" = as.factor(.data$publicationYear)
-  ) %>%
+  )
+
+csbc_publications_to_grants <- csbc_publications1 %>%
+  dplyr::select("publicationId", "grantName") %>%
+  tidyr::drop_na() %>%
+  tidyr::unnest(cols = c(grantName)) %>%
   dplyr::inner_join(
     dplyr::select(csbc_studies, "grantName", "grantId"),
     by = "grantName",
-  )
+  ) %>%
+  dplyr::select(-"grantName") %>%
+  dplyr::group_by(.data$publicationId) %>%
+  dplyr::summarise("grantId" = list(.data$grantId))
+
+csbc_publications <- csbc_publications1 %>%
+  dplyr::left_join(csbc_publications_to_grants, by = "publicationId")
 
 saveRDS(csbc_publications, "inst/RDS/csbc_publications.rds")
 
