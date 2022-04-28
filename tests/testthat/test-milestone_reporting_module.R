@@ -61,25 +61,23 @@ test_that("milestone_reporting_module_server", {
 })
 
 files_tbl1 <- dplyr::tibble(
-  "fileFormat" = "txt",
-  "dataType" = "x",
+  "file_format" = "txt",
   "date" = lubridate::today(),
-  "progressReportNumber" = 1:10
+  "milestone" = 1:10
 )
 
 id_tbl1 <- dplyr::tibble(
-  "fileFormat" = "txt",
-  "dataType" = "x",
-  "date_uploadestimate" = lubridate::today(),
-  "estimatedMinNumSamples" = c(2,2),
-  "progressReportNumber" = 1:2
+  "file_format" = "txt",
+  "date_estimate" = lubridate::today(),
+  "expected_files" = c(2,2),
+  "milestone" = 1:2
 )
 
 data1 <- shiny::reactive(
   list(
     "tables" = list(
       "files" = files_tbl1,
-      "incoming_data" = id_tbl1
+      "milestones" = id_tbl1
     )
   )
 )
@@ -92,7 +90,7 @@ test_that("milestone_reporting_module_server2", {
     args = list(
       "data" = data1,
       "config" = shiny::reactive(
-        get_nf_study_summary_config()$milestone_reporting_plot
+        get_study_summary_config()$milestone_reporting_plot
       )
     ),
     {
@@ -102,26 +100,20 @@ test_that("milestone_reporting_module_server2", {
       session$setInputs("milestone_choice" = 10)
 
       expect_type(join_column_choices(), "character")
-      expect_equal(join_column_choices(), c("Data Type", "File Format"))
+      expect_equal(join_column_choices(), c("File Format"))
       expect_type(output$join_column_choice_ui, "list")
 
       expect_true(tibble::is_tibble(files_tbl()))
       expect_named(
         files_tbl(),
-        c('File Format', 'Data Type', 'Date Created', 'Progress Report Number')
+        c('File Format', 'Date Created', 'Milestone Number')
       )
       expect_true(nrow(files_tbl()) > 0)
 
       expect_true(tibble::is_tibble(id_tbl()))
       expect_named(
         id_tbl(),
-        c(
-          'File Format',
-          'Data Type',
-          'Designated Upload Date',
-          'Progress Report Number',
-          'Expected'
-        )
+        c('File Format', 'Date Estimate', 'Milestone Number', 'Expected')
       )
       expect_true(nrow(id_tbl()) > 0)
 
