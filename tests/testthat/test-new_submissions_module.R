@@ -11,7 +11,7 @@ test_that("new_submissions_module_server", {
     ),
     {
       session$setInputs(
-        "new_files_day_choice" = 500
+        "new_files_day_choice" = 60
       )
       expect_type(output$header_text, "character")
       expect_type(minimum_date(), "double")
@@ -22,6 +22,7 @@ test_that("new_submissions_module_server", {
       expect_true(tibble::is_tibble(filtered_data()$tables$files))
       expect_type(filtered_data()$minimum_date, "double")
       expect_true(tibble::is_tibble(data_table()))
+      expect_true(nrow(data_table()) > 0)
       expect_named(
         data_table(),
         c(

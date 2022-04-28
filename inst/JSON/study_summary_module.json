@@ -145,7 +145,7 @@
       }
     ],
     "plot": {
-      "x": "Study ID",
+      "x": "Species",
       "fill": "Assay",
       "facet": "Year"
     },

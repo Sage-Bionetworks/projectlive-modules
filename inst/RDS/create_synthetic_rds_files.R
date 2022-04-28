@@ -42,6 +42,7 @@ files <- dplyr::tibble(
   "milestone"   = sample(milestones, n_files,  replace = T),
 ) %>%
   dplyr::mutate("year" = lubridate::year(.data$date)) %>%
+  dplyr::mutate("year" = as.factor(.data$year)) %>%
   dplyr::left_join(
     dplyr::select(studies, "study_id", "initiative"),
     by = "study_id"
@@ -57,7 +58,8 @@ publications <- dplyr::tibble(
   "assay"            = sample(assays, n_pubs,  replace = T),
   "date"             = sample(dates, n_pubs,  replace = T)
 ) %>%
-  dplyr::mutate("year" = lubridate::year(.data$date))
+  dplyr::mutate("year" = lubridate::year(.data$date)) %>%
+  dplyr::mutate("year" = as.factor(.data$year))
 
 
 milestones <- dplyr::tibble(
