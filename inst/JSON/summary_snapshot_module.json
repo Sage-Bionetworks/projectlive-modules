@@ -1,0 +1,109 @@
+{
+  "header_text": "You are now viewing the summary snapshot.",
+  "overview_boxes": {
+    "box1": {
+      "title": "Studies",
+      "table": "studies",
+      "columns": ["study id"],
+      "icon": "university"
+    },
+    "box2": {
+      "title": "Files",
+      "table": "files",
+      "columns": ["id"],
+      "icon": "file"
+    },
+    "box3": {
+      "title": "Initiatives",
+      "table": "files",
+      "columns": ["initiative"],
+      "icon": "file"
+    },
+    "box4": {
+      "title": "Assays",
+      "table": "files",
+      "columns": ["assay"],
+      "icon": "pencil-alt"
+    }
+  },
+  "initiative_activity": {
+    "table": "files",
+    "empty_table_message": "The investigator/investigators has/have not uploaded any files yet. Please check back later.",
+    "columns": [
+      {
+        "name": "species",
+        "display_name": "Species",
+        "recode": {"na_replace": "Missing"}
+      },
+      {
+        "name": "initiative",
+        "display_name": "Initiative",
+        "recode": {"na_replace": "Not Applicable"}
+      },
+      {
+        "name": "access_type",
+        "display_name": "Access Type",
+        "recode": {"na_replace": "Not Annotated"}
+      }
+    ],
+    "plot": {
+      "x": "Initiative",
+      "fill": "Access Type",
+      "facet": "Species"
+    },
+    "tooltips": ["count", "fill"]
+  },
+  "resources_generated": {
+    "table": "files",
+    "empty_table_message": "The investigator/investigators has/have not uploaded any files yet. Please check back later.",
+    "columns": [
+      {
+        "name": "year",
+        "display_name": "Year"
+      },
+      {
+        "name": "study id",
+        "display_name": "Study ID",
+        "recode": {"na_replace": "Not Applicable"}
+      },
+      {
+        "name": "assay",
+        "display_name": "Assay",
+        "recode": {"na_replace": "Other"}
+      }
+    ],
+    "plot": {
+      "x": "Data Type",
+      "fill": "Study ID",
+      "facet": "Year"
+    },
+    "tooltips": [ "count", "fill"]
+  },
+  "file_upload_timeline": {
+    "empty_table_message": "The studies have not uploaded any files yet. Please check back later.",
+    "table": "files",
+    "filter_column": "initiative",
+    "columns": [
+      {
+        "name": "study id",
+        "display_name": "Study ID",
+        "recode": {"na_replace": "Pending Annotation"}
+      },
+      {
+        "name": "access_type",
+        "display_name": "Access Type",
+        "recode": {"na_replace": "Not Annotated"}
+      }
+      {
+        "name": "year",
+        "display_name": "Year"
+      }
+    ],
+    "plot": {
+      "x": "Study ID",
+      "fill": "Access Type",
+      "facet": "Year"
+    },
+    "tooltips": ["Count", "fill"]
+  }
+}

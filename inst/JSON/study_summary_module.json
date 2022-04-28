@@ -1,0 +1,232 @@
+{
+  "header_text": "You are now viewing studies. Please click on a row in the table below to select a study and view the details. You can also hover over or zoom into parts of the plots to view more information.",
+  "study_table": {
+    "join_column": "study_id",
+    "filter_column": "initiative",
+    "tables": {
+      "studies": {
+        "columns": [
+          "study_name",
+          "study_id",
+          "initiative"
+        ]
+      },
+      "files": {
+        "columns": [
+          "study_id",
+          "file_id",
+          "assay"
+        ]
+      },
+      "tools": {
+        "columns": [
+          "study_id",
+          "tool_id"
+        ]
+      },
+      "merged": {
+        "columns": [
+          {
+            "display_name": "Name",
+            "name": "study_name"
+          },
+          {
+            "display_name": "ID",
+            "name": "study_id"
+          },
+          {
+            "display_name": "Initiative",
+            "name": "initiative"
+          },
+          {
+            "display_name": "Assays",
+            "name": "assay"
+          },
+          {
+            "display_name": "Files",
+            "name": "file_id"
+          },
+          {
+            "display_name": "Tools",
+            "name": "tool_id"
+          }
+        ]
+      }
+    }
+  },
+  "study_name_column": "Name",
+  "study_id_column": "ID",
+  "study_summary": {
+    "table": "studies",
+    "filter_column": "study_name",
+    "columns": [
+      {
+        "name": "study_id",
+        "display_name": "Unique Study ID"
+      },
+      {
+        "name": "initiative",
+        "display_name": "Initiative"
+      }
+    ]
+  },
+  "study_timeline_plot": {
+    "table": "files",
+    "filter_column": "study_id",
+    "columns": [
+      {
+        "name": "study_id",
+        "display_name": "Study ID"
+      },
+      {
+        "name": "species",
+        "display_name": "Species",
+        "recode": {"na_replace": "Missing"}
+      },
+      {
+        "name": "year",
+        "display_name": "Year"
+      }
+    ],
+    "plot": {
+      "x": "Study ID",
+      "fill": "Species",
+      "facet": ["Year"]
+    },
+    "tooltips": ["count","fill"],
+    "empty_table_message": "The investigator/investigators has/have not uploaded any files yet. Please check back later."
+  },
+  "data_focus_plot": {
+    "table": "files",
+    "filter_column": "study_id",
+    "columns": [
+      {
+        "name": "study_id",
+        "display_name": "Study ID"
+      },
+      {
+        "name": "assay",
+        "display_name": "Assays Used",
+        "recode": {"na_replace": "Not Annotated"}
+      },
+      {
+        "name": "species",
+        "display_name": "Species Used",
+        "recode": {"na_replace": "Not Annotated"}
+      }
+    ],
+    "plot": {
+      "x": "Study ID",
+      "fill": [
+        "Assays Used",
+        "Species Used"
+      ]
+    },
+    "tooltips": ["count", "fill"],
+    "empty_table_message": "The investigators have not uploaded data for this study yet. Please check back later."
+  },
+  "annotation_activity_plot": {
+    "table": "files",
+    "filter_column": "study_id",
+    "columns": [
+      {
+        "name": "species",
+        "display_name": "Species",
+        "recode": {"na_replace": "Not Annotated"}
+      },
+      {
+        "name": "assay",
+        "display_name": "Assay",
+        "recode": {"na_replace": "Not Annotated"}
+      },
+      {
+        "name": "year",
+        "display_name": "Year"
+      }
+    ],
+    "plot": {
+      "x": "Study ID",
+      "fill": "Assay",
+      "facet": "Year"
+    },
+    "empty_table_message": "The investigators have not uploaded any files yet. Please check back later.",
+    "tooltips": [
+      "Count",
+      "fill"
+    ]
+  },
+  "publication_status_plot": {
+    "table": "publications",
+    "count_column": {
+      "name": "Count",
+      "complete_columns": ["year"]
+    },
+    "filter_column": "study_id",
+    "columns": [
+      {
+        "name": "year",
+        "display_name": "Year"
+      },
+      {
+        "name": "study_id",
+        "display_name": "Study ID"
+      }
+    ],
+    "plot": {
+      "x": "Year",
+      "y": "Count",
+      "fill": "Study ID"
+    },
+    "empty_table_message": "This study has no associated publications yet.",
+    "tooltips": ["Count", "fill"]
+  },
+  "milestone_reporting_plot": {
+    "files_table": {
+      "name": "files",
+      "columns": [
+        {
+          "name": "fileFormat",
+          "display_name": "File Format",
+          "recode": {"na_replace": "Not Annotated"}
+        },
+        {
+          "name": "date",
+          "display_name": "Date Created"
+        },
+        {
+          "name": "milestone",
+          "display_name": "Milestone Number"
+        }
+      ]
+    },
+    "incoming_data_table": {
+      "name": "milestones",
+      "unlist_columns": "fileFormat",
+      "columns": [
+        {
+          "name": "fileFormat",
+          "display_name": "File Format",
+          "recode": {"na_replace": "Not Annotated"}
+        },
+        {
+          "name": "date_estimate",
+          "display_name": "Date Estimate"
+        },
+        {
+          "name": "milestone",
+          "display_name": "Milestone Number"
+        },
+        {
+          "name": "expected_files",
+          "display_name": "Expected"
+        }
+      ]
+    },
+    "join_columns": ["File Format"],
+    "milestone_column": "Milestone Number",
+    "date_created_column": "Date Created",
+    "date_estimate_column": "Designated Estimate",
+    "expected_files_column": "Expected",
+    "actual_files_column": "Actual"
+  }
+}

@@ -6,8 +6,8 @@ test_that("new_submissions_module_server", {
   shiny::testServer(
     new_submissions_module_server,
     args = list(
-      "data" = shiny::reactiveVal(nf_data),
-      "config" = shiny::reactiveVal(get_nf_new_submissions_config())
+      "data" = shiny::reactive(synthetic_data),
+      "config" = shiny::reactive(get_new_submissions_config())
     ),
     {
       session$setInputs(
@@ -27,10 +27,7 @@ test_that("new_submissions_module_server", {
         c(
           'File Name',
           'Date',
-          'Study Name',
-          'Study Leads',
-          'Parent ID',
-          'Resource Type',
+          'Study ID',
           'Assay'
         )
       )

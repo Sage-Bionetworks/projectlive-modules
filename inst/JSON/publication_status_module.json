@@ -1,0 +1,41 @@
+{
+  "header_text": "You are now viewing publications.",
+  "publication_status": {
+      "table": "publications",
+      "columns": [
+        {
+          "name": "year",
+          "display_name": "Year"
+        },
+        {
+          "name": "study_id",
+          "display_name": "Study ID",
+          "recode": {"na_replace": "None Listed"}
+        }
+      ],
+      "plot": {
+        "x": "Year",
+        "fill": "Study Name"
+      },
+      "tooltips": ["Count", "fill"]
+    },
+  "publication_disease": {
+      "table": "publications",
+      "columns": [
+        {
+          "name": "year",
+          "display_name": "Year"
+        },
+        {
+          "name": "assay",
+          "display_name": "Assay",
+          "recode": {"na_replace": "None Listed"}
+        }
+      ],
+      "plot": {
+        "x": "Year",
+        "fill": "Assay"
+      },
+      "tooltips": ["count", "fill"]
+    }
+}
