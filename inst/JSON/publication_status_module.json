@@ -15,7 +15,7 @@
       ],
       "plot": {
         "x": "Year",
-        "fill": "Study Name"
+        "fill": "Study ID"
       },
       "tooltips": ["Count", "fill"]
     },

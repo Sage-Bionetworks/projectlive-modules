@@ -4,18 +4,18 @@
     "box1": {
       "title": "Studies",
       "table": "studies",
-      "columns": ["study id"],
+      "columns": ["study_id"],
       "icon": "university"
     },
     "box2": {
       "title": "Files",
       "table": "files",
-      "columns": ["id"],
+      "columns": ["file_id"],
       "icon": "file"
     },
     "box3": {
       "title": "Initiatives",
-      "table": "files",
+      "table": "studies",
       "columns": ["initiative"],
       "icon": "file"
     },
@@ -62,7 +62,7 @@
         "display_name": "Year"
       },
       {
-        "name": "study id",
+        "name": "study_id",
         "display_name": "Study ID",
         "recode": {"na_replace": "Not Applicable"}
       },
@@ -73,7 +73,7 @@
       }
     ],
     "plot": {
-      "x": "Data Type",
+      "x": "Assay",
       "fill": "Study ID",
       "facet": "Year"
     },
@@ -85,7 +85,7 @@
     "filter_column": "initiative",
     "columns": [
       {
-        "name": "study id",
+        "name": "study_id",
         "display_name": "Study ID",
         "recode": {"na_replace": "Pending Annotation"}
       },
@@ -93,7 +93,7 @@
         "name": "access_type",
         "display_name": "Access Type",
         "recode": {"na_replace": "Not Annotated"}
-      }
+      },
       {
         "name": "year",
         "display_name": "Year"

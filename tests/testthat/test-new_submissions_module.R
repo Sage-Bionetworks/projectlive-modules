@@ -6,7 +6,7 @@ test_that("new_submissions_module_server", {
   shiny::testServer(
     new_submissions_module_server,
     args = list(
-      "data" = shiny::reactive(synthetic_data),
+      "data" = shiny::reactive(get_synthetic_data()),
       "config" = shiny::reactive(get_new_submissions_config())
     ),
     {

@@ -41,7 +41,11 @@ files <- dplyr::tibble(
   "file_format" = sample(file_formats, n_files,  replace = T),
   "milestone"   = sample(milestones, n_files,  replace = T),
 ) %>%
-  dplyr::mutate("year" = lubridate::year(.data$date))
+  dplyr::mutate("year" = lubridate::year(.data$date)) %>%
+  dplyr::left_join(
+    dplyr::select(studies, "study_id", "initiative"),
+    by = "study_id"
+  )
 
 
 n_pubs      <- 1000
@@ -60,7 +64,7 @@ milestones <- dplyr::tibble(
   "study_id"      = study_ids[[1]],
   "milestone"     = milestones,
   "file_format"   = file_formats[[1]],
-  "expcted_files" = c(10, 20, 30),
+  "expected_files" = c(10, 20, 30),
   "date_estimate" = date_estimates
 )
 

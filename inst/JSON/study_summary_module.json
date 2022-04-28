@@ -185,7 +185,7 @@
       "name": "files",
       "columns": [
         {
-          "name": "fileFormat",
+          "name": "file_format",
           "display_name": "File Format",
           "recode": {"na_replace": "Not Annotated"}
         },
@@ -201,10 +201,10 @@
     },
     "incoming_data_table": {
       "name": "milestones",
-      "unlist_columns": "fileFormat",
+      "unlist_columns": "file_format",
       "columns": [
         {
-          "name": "fileFormat",
+          "name": "file_format",
           "display_name": "File Format",
           "recode": {"na_replace": "Not Annotated"}
         },
@@ -225,7 +225,7 @@
     "join_columns": ["File Format"],
     "milestone_column": "Milestone Number",
     "date_created_column": "Date Created",
-    "date_estimate_column": "Designated Estimate",
+    "date_estimate_column": "Date Estimate",
     "expected_files_column": "Expected",
     "actual_files_column": "Actual"
   }

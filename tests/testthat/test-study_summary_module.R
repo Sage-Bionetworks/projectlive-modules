@@ -7,7 +7,7 @@ test_that("study_summary_module_server", {
   shiny::testServer(
     study_summary_module_server,
     args = list(
-      "data" = shiny::reactive(synthetic_data),
+      "data" = shiny::reactive(get_synthetic_data()),
       "config" = shiny::reactive(get_study_summary_config())
     ),
     {

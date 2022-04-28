@@ -8,7 +8,7 @@ test_that("summary_snapshot_module_server", {
   shiny::testServer(
     summary_snapshot_module_server,
     args = list(
-      "data" = shiny::reactive(synthetic_data),
+      "data" = shiny::reactive(get_synthetic_data()),
       "config" = shiny::reactive(get_summary_snapshot_config())
     ),
     {
@@ -25,8 +25,8 @@ test_that("summary_snapshot_module_server_error", {
   shiny::testServer(
     summary_snapshot_module_server,
     args = list(
-      "data" = shiny::reactive(synthetic_data),
-      "config" = shiny::reactiveVal(list())
+      "data" = shiny::reactive(get_synthetic_data()),
+      "config" = shiny::reactive(list())
     ),
     {
       expect_error(config_is_valid())
