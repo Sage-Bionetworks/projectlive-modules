@@ -1,3 +1,7 @@
+synapseclient <- reticulate::import("synapseclient", delay_load = TRUE)
+syn <- synapseclient$Synapse()
+invisible(syn$login())
+
 test_that("synapse_module_ui2", {
   expect_type(synapse_module_ui2("id"), "list")
 })

@@ -3,12 +3,12 @@ test_that("study_selection_module_ui", {
   expect_type(study_selection_module_ui("id"), "list")
 })
 
-test_that("nf_study_selection_module_server1", {
+test_that("study_selection_module_server", {
   shiny::testServer(
     study_selection_module_server,
     args = list(
-      "data" = shiny::reactiveVal(nf_data),
-      "config" = shiny::reactiveVal(get_nf_study_summary_config())
+      "data" = shiny::reactive(get_synthetic_data()),
+      "config" = shiny::reactive(get_study_summary_config())
     ),
     {
       expect_type(filter_choices(), "character")
@@ -24,171 +24,17 @@ test_that("nf_study_selection_module_server1", {
       expect_type(selected_study_id(), "character")
       expect_equal(
         selected_study_id(),
-        "syn4939902"
+        "S3"
       )
       expect_type(selected_study_name(), "character")
       expect_equal(
         selected_study_name(),
-        "A Nerve Sheath Tumor Bank from Patients with NF1"
+        "StudyC"
       )
       expect_type(output$study, "list")
       res <- session$getReturned()()
       expect_type(res$selected_study, "character")
 
-    }
-  )
-})
-
-test_that("nf_study_selection_module_server2", {
-  shiny::testServer(
-    study_selection_module_server,
-    args = list(
-      "data" = shiny::reactiveVal(nf_data),
-      "config" = shiny::reactiveVal(get_nf_study_summary_config())
-    ),
-    {
-      expect_type(filter_choices(), "character")
-      expect_type(output$filter_ui, "list")
-      session$setInputs("filter_value" = "All")
-      expect_type(filtered_table(), "list")
-      expect_type(study_table(), "list")
-      expect_type(output$study_table, "character")
-      session$setInputs("study_table_rows_selected" = 9)
-      expect_true(tibble::is_tibble(selected_study_row()))
-      expect_equal(nrow(selected_study_row()), 1)
-
-      expect_type(selected_study_id(), "character")
-      expect_equal(
-        selected_study_id(),
-        "syn11374333"
-      )
-      expect_type(selected_study_name(), "character")
-      expect_equal(
-        selected_study_name(),
-        "Cutaneous Neurofibroma - Models, Biology, and Translation"
-      )
-      expect_type(output$study, "list")
-      res <- session$getReturned()()
-      expect_type(res$selected_study, "character")
-
-    }
-  )
-})
-
-
-
-test_that("nf_study_selection_module_server3", {
-  shiny::testServer(
-    study_selection_module_server,
-    args = list(
-      "data" = shiny::reactiveVal(nf_data),
-      "config" = shiny::reactiveVal(get_nf_study_summary_config())
-    ),
-    {
-      expect_type(filter_choices(), "character")
-      expect_type(output$filter_ui, "list")
-      session$setInputs("filter_value" = filter_choices()[[1]])
-      expect_type(filtered_table(), "list")
-      expect_type(study_table(), "list")
-      expect_type(output$study_table, "character")
-      session$setInputs("study_table_rows_selected" = 3)
-      expect_type(selected_study_name(), "character")
-      expect_type(output$study, "list")
-      res <- session$getReturned()()
-      expect_type(res$selected_study, "character")
-
-    }
-  )
-})
-
-
-test_that("nf_gff_study_selection_module_server", {
-  shiny::testServer(
-    study_selection_module_server,
-    args = list(
-      "data" = shiny::reactive(nf_gff_data),
-      "config" = shiny::reactive(get_nf_study_summary_config())
-    ),
-    {
-      session$setInputs("filter_value" = "All")
-      session$setInputs("study_table_rows_selected" = 3)
-      expect_true(tibble::is_tibble(selected_study_row()))
-      expect_equal(nrow(selected_study_row()), 1)
-
-      expect_type(output$filter_ui, "list")
-
-      expect_true(tibble::is_tibble(study_table()))
-      expect_named(
-        study_table(),
-        c(
-          'Name',
-          'Id',
-          'Initiative',
-          'Leads',
-          'Study Status',
-          'Data Status',
-          'Disease Focus',
-          'Individuals',
-          'Specimens',
-          'Assays',
-          'Files',
-          'Tools'
-        )
-      )
-      expect_true(nrow(study_table()) > 0)
-
-      expect_type(output$study_table, "character")
-      expect_type(selected_study_name(), "character")
-      expect_type(output$study, "list")
-
-      res <- session$getReturned()()
-      expect_type(res$selected_study, "character")
-    }
-  )
-})
-
-test_that("csbc_study_selection_module_server", {
-  shiny::testServer(
-    study_selection_module_server,
-    args = list(
-      "data" = shiny::reactiveVal(csbc_data),
-      "config" = shiny::reactiveVal(get_csbc_study_summary_config())
-    ),
-    {
-      session$setInputs("filter_value" = "All")
-      session$setInputs("study_table_rows_selected" = 34)
-      expect_true(tibble::is_tibble(selected_study_row()))
-      expect_equal(nrow(selected_study_row()), 1)
-
-      expect_type(selected_study_id(), "character")
-      expect_equal(
-        selected_study_id(),
-        "H Lee Moffitt Cancer Center and Research Institute"
-      )
-      expect_type(selected_study_name(), "character")
-      expect_equal(
-        selected_study_name(),
-        "H Lee Moffitt Cancer Center and Research Institute"
-      )
-
-      expect_type(output$filter_ui, "list")
-
-      expect_true(tibble::is_tibble(study_table()))
-      expect_named(
-        study_table(),
-        c('Grant Name', 'Consortium', 'Assays', 'Files', 'Tools')
-      )
-      expect_true(nrow(study_table()) > 0)
-
-      expect_type(output$study_table, "character")
-
-      expect_type(output$study, "list")
-      res <- session$getReturned()()
-      expect_type(res$selected_study, "character")
-      expect_equal(
-        res$selected_study,
-        "H Lee Moffitt Cancer Center and Research Institute"
-      )
     }
   )
 })
