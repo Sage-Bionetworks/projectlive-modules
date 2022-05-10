@@ -3,12 +3,13 @@ test_that("summary_snapshot_module_ui", {
   expect_type(summary_snapshot_module_ui("id"), "list")
 })
 
+
 test_that("summary_snapshot_module_server", {
   shiny::testServer(
     summary_snapshot_module_server,
     args = list(
-      "data" = shiny::reactiveVal(nf_data),
-      "config" = shiny::reactiveVal(get_nf_summary_snapshot_config())
+      "data" = shiny::reactive(get_synthetic_data()),
+      "config" = shiny::reactive(get_summary_snapshot_config())
     ),
     {
       expect_type(output$header_text, "character")
@@ -24,8 +25,8 @@ test_that("summary_snapshot_module_server_error", {
   shiny::testServer(
     summary_snapshot_module_server,
     args = list(
-      "data" = shiny::reactiveVal(nf_data),
-      "config" = shiny::reactiveVal(list())
+      "data" = shiny::reactive(get_synthetic_data()),
+      "config" = shiny::reactive(list())
     ),
     {
       expect_error(config_is_valid())

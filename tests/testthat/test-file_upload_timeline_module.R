@@ -7,8 +7,8 @@ test_that("file_upload_timeline_module_server", {
   shiny::testServer(
     file_upload_timeline_module_server,
     args = list(
-      "data" = shiny::reactiveVal(nf_data),
-      "config" = shiny::reactiveVal(get_nf_summary_snapshot_config()$file_upload_timeline)
+      "data" = shiny::reactive(get_synthetic_data()),
+      "config" = shiny::reactive(get_summary_snapshot_config()$file_upload_timeline)
     ),
     {
       expect_type(file_upload_timeline_filter_choices(), "character")

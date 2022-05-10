@@ -6,12 +6,12 @@ test_that("new_submissions_module_server", {
   shiny::testServer(
     new_submissions_module_server,
     args = list(
-      "data" = shiny::reactiveVal(nf_data),
-      "config" = shiny::reactiveVal(get_nf_new_submissions_config())
+      "data" = shiny::reactive(get_synthetic_data()),
+      "config" = shiny::reactive(get_new_submissions_config())
     ),
     {
       session$setInputs(
-        "new_files_day_choice" = 500
+        "new_files_day_choice" = 60
       )
       expect_type(output$header_text, "character")
       expect_type(minimum_date(), "double")
@@ -22,15 +22,13 @@ test_that("new_submissions_module_server", {
       expect_true(tibble::is_tibble(filtered_data()$tables$files))
       expect_type(filtered_data()$minimum_date, "double")
       expect_true(tibble::is_tibble(data_table()))
+      expect_true(nrow(data_table()) > 0)
       expect_named(
         data_table(),
         c(
           'File Name',
           'Date',
-          'Study Name',
-          'Study Leads',
-          'Parent ID',
-          'Resource Type',
+          'Study ID',
           'Assay'
         )
       )

@@ -1,29 +1,29 @@
 {
-  "header_text": "Please hover your cursor over the plots to view more information. You can also zoom into parts of the plot.",
+  "header_text": "You are now viewing the summary snapshot.",
   "overview_boxes": {
     "box1": {
       "title": "Studies",
       "table": "studies",
-      "columns": ["grantId"],
+      "columns": ["study_id"],
       "icon": "university"
     },
     "box2": {
       "title": "Files",
       "table": "files",
-      "columns": ["id"],
+      "columns": ["file_id"],
       "icon": "file"
     },
     "box3": {
-      "title": "Datasets",
-      "table": "datasets",
-      "columns": ["datasetId"],
+      "title": "Initiatives",
+      "table": "studies",
+      "columns": ["initiative"],
       "icon": "file"
     },
     "box4": {
-      "title": "Publications",
-      "table": "publications",
-      "columns": ["publicationId"],
-      "icon": "pencil"
+      "title": "Assays",
+      "table": "files",
+      "columns": ["assay"],
+      "icon": "pencil-alt"
     }
   },
   "initiative_activity": {
@@ -31,73 +31,68 @@
     "empty_table_message": "The investigator/investigators has/have not uploaded any files yet. Please check back later.",
     "columns": [
       {
-        "name": "year",
-        "display_name": "Year"
+        "name": "species",
+        "display_name": "Species",
+        "recode": {"na_replace": "Missing"}
       },
       {
-        "name": "consortium",
-        "display_name": "Consortium",
+        "name": "initiative",
+        "display_name": "Initiative",
         "recode": {"na_replace": "Not Applicable"}
       },
       {
-        "name": "accessType",
+        "name": "access_type",
         "display_name": "Access Type",
         "recode": {"na_replace": "Not Annotated"}
       }
     ],
     "plot": {
-      "x": "Consortium",
+      "x": "Initiative",
       "fill": "Access Type",
-      "facet": "Year"
+      "facet": "Species"
     },
-    "tooltips": [ "count", "fill"]
+    "tooltips": ["count", "fill"]
   },
   "resources_generated": {
     "table": "files",
     "empty_table_message": "The investigator/investigators has/have not uploaded any files yet. Please check back later.",
-    "unlist_columns": ["theme"],
-    "drop_na": true,
     "columns": [
       {
         "name": "year",
         "display_name": "Year"
       },
       {
-        "name": "grantName",
-        "display_name": "Grant Name",
+        "name": "study_id",
+        "display_name": "Study ID",
         "recode": {"na_replace": "Not Applicable"}
-      },
-      {
-        "name": "theme",
-        "display_name": "Theme"
-      }
-    ],
-    "plot": {
-      "x": "Theme",
-      "fill": "Grant Name",
-      "facet": "Year"
-    },
-    "tooltips": ["count", "fill"]
-  },
-  "file_upload_timeline": {
-    "empty_table_message": "The studies have not uploaded any files yet. Please check back later.",
-    "table": "files",
-    "filter_column": "consortium",
-    "count_column": {
-      "name": "Count",
-      "complete_columns": ["grantName", "year"]
-    },
-    "columns": [
-      {
-        "name": "grantName",
-        "display_name": "Grant Name",
-        "recode": {"na_replace": "Pending Annotation"},
-        "truncate": 40
       },
       {
         "name": "assay",
         "display_name": "Assay",
+        "recode": {"na_replace": "Other"}
+      }
+    ],
+    "plot": {
+      "x": "Assay",
+      "fill": "Study ID",
+      "facet": "Year"
+    },
+    "tooltips": [ "count", "fill"]
+  },
+  "file_upload_timeline": {
+    "empty_table_message": "The studies have not uploaded any files yet. Please check back later.",
+    "table": "files",
+    "filter_column": "initiative",
+    "columns": [
+      {
+        "name": "study_id",
+        "display_name": "Study ID",
         "recode": {"na_replace": "Pending Annotation"}
+      },
+      {
+        "name": "access_type",
+        "display_name": "Access Type",
+        "recode": {"na_replace": "Not Annotated"}
       },
       {
         "name": "year",
@@ -105,9 +100,8 @@
       }
     ],
     "plot": {
-      "x": "Grant Name",
-      "y": "Count",
-      "fill": "Assay",
+      "x": "Study ID",
+      "fill": "Access Type",
       "facet": "Year"
     },
     "tooltips": ["Count", "fill"]
