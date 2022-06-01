@@ -45,6 +45,7 @@ test_that("milestone_reporting_module_server", {
       expect_type(plot_title1(), "character")
       expect_type(filtered_id_tbl1(), "list")
       expect_type(filtered_files_tbl1(), "list")
+      expect_true(tibble::is_tibble(grouped_files_tbl1()))
       expect_type(merged_tbl1(), "list")
       expect_type(plot_obj1(), "list")
 
@@ -126,6 +127,7 @@ test_that("milestone_reporting_module_server2", {
       expect_type(plot_title1(), "character")
       expect_type(filtered_id_tbl1(), "list")
       expect_type(filtered_files_tbl1(), "list")
+      expect_true(tibble::is_tibble(grouped_files_tbl1()))
       expect_type(merged_tbl1(), "list")
       expect_type(plot_obj1(), "list")
 

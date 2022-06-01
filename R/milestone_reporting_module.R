@@ -227,18 +227,28 @@ milestone_reporting_module_server <- function(id, data, config){
           files_tbl(),
           config(),
           date_range_start(),
-          date_range_end(),
-          input$join_column_choice
+          date_range_end()
         )
-        filter_files_tbl(
+        filter_files_tbl1(
           files_tbl(),
           config(),
           date_range_start(),
-          date_range_end(),
-          input$join_column_choice
+          date_range_end()
         )
       })
 
+      grouped_files_tbl1 <- shiny::reactive({
+        shiny::req(
+          files_tbl(),
+          config(),
+          input$join_column_choice
+        )
+        group_files_tbl1(
+          files_tbl(),
+          config(),
+          input$join_column_choice
+        )
+      })
 
       filtered_id_tbl1 <- shiny::reactive({
         shiny::req(
@@ -255,18 +265,17 @@ milestone_reporting_module_server <- function(id, data, config){
         )
       })
 
-
       merged_tbl1 <- shiny::reactive({
         shiny::req(
           filtered_id_tbl1(),
-          filtered_files_tbl1(),
+          grouped_files_tbl1(),
           config(),
           input$join_column_choice
         )
 
         merge_tbls(
           filtered_id_tbl1(),
-          filtered_files_tbl1(),
+          grouped_files_tbl1(),
           config(),
           input$join_column_choice
         )

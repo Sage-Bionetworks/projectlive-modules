@@ -23,19 +23,25 @@ filter_internal_data_tbl <- function(tbl, config, milestone, join_column_string)
     )
 }
 
-filter_files_tbl <- function(tbl, config, date_range_start, date_range_end, join_column_string){
-  join_column   <- rlang::sym(join_column_string)
+filter_files_tbl1 <- function(tbl, config, date_range_start, date_range_end){
   date_column   <- rlang::sym(config$date_created_column)
-  actual_column <- rlang::sym(config$actual_files_column)
 
   tbl %>%
     dplyr::filter(
       !!date_column < date_range_end,
       !!date_column > date_range_start
-    ) %>%
+    )
+}
+
+group_files_tbl1 <- function(tbl, config, join_column_string){
+  join_column   <- rlang::sym(join_column_string)
+  actual_column <- rlang::sym(config$actual_files_column)
+
+  tbl %>%
     dplyr::group_by(!!join_column) %>%
     dplyr::summarise(!!actual_column := dplyr::n())
 }
+
 
 filter_files_tbl2 <- function(tbl, config, milestone, join_column_string){
   join_column      <- rlang::sym(join_column_string)
