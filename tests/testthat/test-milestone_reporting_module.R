@@ -25,7 +25,7 @@ test_that("milestone_reporting_module_server", {
       expect_true(tibble::is_tibble(files_tbl()))
       expect_named(
         files_tbl(),
-        c('File Format', 'Date Created', 'Milestone Number')
+        c('File Format', 'Date Created', 'Milestone Number', 'File ID')
       )
       expect_true(nrow(files_tbl()) > 0)
 
@@ -64,7 +64,8 @@ test_that("milestone_reporting_module_server", {
 files_tbl1 <- dplyr::tibble(
   "file_format" = "txt",
   "date" = lubridate::today(),
-  "milestone" = 1:10
+  "milestone" = 1:10,
+  "file_id" = stringr::str_c("F", 1:10)
 )
 
 id_tbl1 <- dplyr::tibble(
@@ -107,7 +108,7 @@ test_that("milestone_reporting_module_server2", {
       expect_true(tibble::is_tibble(files_tbl()))
       expect_named(
         files_tbl(),
-        c('File Format', 'Date Created', 'Milestone Number')
+        c('File Format', 'Date Created', 'Milestone Number', "File ID")
       )
       expect_true(nrow(files_tbl()) > 0)
 
