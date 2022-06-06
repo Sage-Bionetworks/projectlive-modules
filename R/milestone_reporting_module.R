@@ -59,7 +59,6 @@ milestone_reporting_module_ui <- function(id, button_text = "Download plot table
         shiny::fluidRow(
           shiny::column(
             width = 12,
-            shiny::textOutput(ns("click_text2")),
             shiny::uiOutput(ns("link2"))
           )
         )
@@ -109,7 +108,6 @@ milestone_reporting_module_ui <- function(id, button_text = "Download plot table
         shiny::fluidRow(
           shiny::column(
             width = 12,
-            shiny::textOutput(ns("click_text1")),
             shiny::uiOutput(ns("link1"))
           )
         )
@@ -328,25 +326,12 @@ milestone_reporting_module_server <- function(id, data, config, syn, study_id){
         return(eventdata)
       })
 
-      click_text1 <- shiny::reactive({
-        shiny::req(fileview_id())
-
-        shiny::validate(shiny::need(
-          all(!is.null(event_data1()), event_data1() != ""),
-          "Click on a bar above of actual files to get a list of synapse ids."
-        ))
-
-        create_file_text_string(fileview_id(), event_data1()$key[[1]])
-      })
-
-      output$click_text1 <- shiny::renderText(click_text1())
-
       link1 <- shiny::reactive({
         shiny::req(stringr::str_detect(fileview_id(), "^syn[0-9]+$"))
 
         shiny::validate(shiny::need(
           all(!is.null(event_data1()), event_data1() != ""),
-          "Click on a bar above of actual files to get a list of synapse ids."
+          'Click on a bar above in the "ACTUAL" column to generate a link to the files in Synapse.'
         ))
         link <- create_fileview_link(fileview_id(), event_data1()$key[[1]])
       })
@@ -491,24 +476,12 @@ milestone_reporting_module_server <- function(id, data, config, syn, study_id){
         return(eventdata)
       })
 
-      click_text2 <- shiny::reactive({
-        shiny::req(fileview_id())
-
-        shiny::validate(shiny::need(
-          all(!is.null(event_data2()), event_data2() != ""),
-          "Click on a bar above of actual files to get a list of synapse ids."
-        ))
-        create_file_text_string(fileview_id(), event_data2()$key[[1]])
-      })
-
-      output$click_text2 <- shiny::renderText(click_text2())
-
       link2 <- shiny::reactive({
         shiny::req(stringr::str_detect(fileview_id(), "^syn[0-9]+$"))
 
         shiny::validate(shiny::need(
           all(!is.null(event_data1()), event_data2() != ""),
-          "Click on a bar above of actual files to get a list of synapse ids."
+          'Click on a bar above in the "ACTUAL" column to generate a link to the files in Synapse.'
         ))
         link <- create_fileview_link(fileview_id(), event_data1()$key[[1]])
       })

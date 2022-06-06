@@ -185,14 +185,12 @@ test_that("milestone_reporting_module_server_event_data", {
       expect_equal(fileview_id(), "syn13363852")
 
       expect_true(is.data.frame(event_data1()))
-      expect_equal(click_text1(),  "Fileview ID: syn13363852 File IDs: F10,F67,F171,F347")
       expect_true(stringr::str_detect(
         link1(),
         "https://www.synapse.org/#!Synapse:syn13363852/tables/query/[:print:]+"
       ))
 
       expect_true(is.data.frame(event_data2()))
-      expect_equal(click_text2(),  "Fileview ID: syn13363852 File IDs: F10,F67")
       expect_true(stringr::str_detect(
         link2(),
         "https://www.synapse.org/#!Synapse:syn13363852/tables/query/[:print:]+"
