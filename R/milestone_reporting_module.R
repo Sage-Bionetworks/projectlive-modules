@@ -56,12 +56,7 @@ milestone_reporting_module_ui <- function(id, button_text = "Download plot table
             plotly::plotlyOutput(ns("plot2"))
           )
         ),
-        shiny::fluidRow(
-          shiny::column(
-            width = 12,
-            shiny::uiOutput(ns("link2"))
-          )
-        )
+        shinydashboard::infoBoxOutput(ns('link_box2'), width = 3),
       ),
       # ----
       shinydashboard::box(
@@ -105,12 +100,7 @@ milestone_reporting_module_ui <- function(id, button_text = "Download plot table
             plotly::plotlyOutput(ns("plot1"))
           )
         ),
-        shiny::fluidRow(
-          shiny::column(
-            width = 12,
-            shiny::uiOutput(ns("link1"))
-          )
-        )
+        shinydashboard::infoBoxOutput(ns('link_box1'), width = 3),
       )
     )
   )
@@ -336,7 +326,17 @@ milestone_reporting_module_server <- function(id, data, config, syn, study_id){
         link <- create_fileview_link(fileview_id(), event_data1()$key[[1]])
       })
 
-      output$link1 <- shiny::renderUI(shiny::a("See selected files in Synapse.", href = link1()))
+      output$link_box1 <- shinydashboard::renderInfoBox({
+        shinydashboard::infoBox(
+          title = "Synapse Fileview",
+          icon = shiny::icon("table"),
+          value =  shiny::a(
+            "See selected files in Synapse.",
+            href = link1()
+          ),
+          color = "green"
+        )
+      })
 
       output$download_tbl1 <- shiny::downloadHandler(
         filename = function() stringr::str_c("data-", Sys.Date(), ".csv"),
@@ -480,13 +480,23 @@ milestone_reporting_module_server <- function(id, data, config, syn, study_id){
         shiny::req(stringr::str_detect(fileview_id(), "^syn[0-9]+$"))
 
         shiny::validate(shiny::need(
-          all(!is.null(event_data1()), event_data2() != ""),
+          all(!is.null(event_data2()), event_data2() != ""),
           'Click on a bar above in the "ACTUAL" column to generate a link to the files in Synapse.'
         ))
         link <- create_fileview_link(fileview_id(), event_data1()$key[[1]])
       })
 
-      output$link2 <- shiny::renderUI(shiny::a("See selected files in Synapse.", href = link2()))
+      output$link_box2 <- shinydashboard::renderInfoBox({
+        shinydashboard::infoBox(
+          title = "Synapse Fileview",
+          icon = shiny::icon("table"),
+          value =  shiny::a(
+            "See selected files in Synapse.",
+            href = link2()
+          ),
+          color = "green"
+        )
+      })
 
       output$download_tbl2 <- shiny::downloadHandler(
         filename = function() stringr::str_c("data-", Sys.Date(), ".csv"),
