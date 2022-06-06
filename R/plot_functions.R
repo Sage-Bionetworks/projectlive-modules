@@ -517,32 +517,34 @@ create_milestone_reporting_plot <- function(
   x_axis_text = NULL
   ){
    p <- data %>%
-    ggplot2::ggplot() +
-    ggplot2::geom_bar(
-      ggplot2::aes(
-        x = !!rlang::sym("Types of Files"),
-        y = !!rlang::sym("Number of Files"),
-        fill = !!rlang::sym("Types of Files")
-      ),
-      stat = "identity",
-      alpha = 0.8,
-      na.rm = TRUE,
-      show.legend = FALSE,
-      position = ggplot2::position_dodge()
-    ) +
-    ggplot2::facet_grid(cols = ggplot2::vars(!!rlang::sym(facet))) +
-    ggplot2::ggtitle(title) +
-    ggplot2::theme(
-      legend.text = ggplot2::element_text(size = 8),
-      axis.text.x = rlang::exec(ggplot2::element_text, !!!x_axis_text),
-      text = ggplot2::element_text(size = 10),
-      strip.text.x = ggplot2::element_text(size = 10),
-      legend.position = "right",
-      panel.grid.major.y = ggplot2::element_blank(),
-      panel.background = ggplot2::element_rect(fill = "grey95")
-    )
-  if(find_plot_theme()) p <- p + find_plot_theme()()
-  return(p)
+     ggplot2::ggplot() +
+     # key is not a known aesthetic for geom_bar, but is needed by plotly
+     suppressWarnings(ggplot2::geom_bar(
+       ggplot2::aes(
+         x = !!rlang::sym("Types of Files"),
+         y = !!rlang::sym("Number of Files"),
+         fill = !!rlang::sym("Types of Files"),
+         key = !!rlang::sym("File ID")
+       ),
+       stat = "identity",
+       alpha = 0.8,
+       na.rm = TRUE,
+       show.legend = FALSE,
+       position = ggplot2::position_dodge()
+     )) +
+     ggplot2::facet_grid(cols = ggplot2::vars(!!rlang::sym(facet))) +
+     ggplot2::ggtitle(title) +
+     ggplot2::theme(
+       legend.text = ggplot2::element_text(size = 8),
+       axis.text.x = rlang::exec(ggplot2::element_text, !!!x_axis_text),
+       text = ggplot2::element_text(size = 10),
+       strip.text.x = ggplot2::element_text(size = 10),
+       legend.position = "right",
+       panel.grid.major.y = ggplot2::element_blank(),
+       panel.background = ggplot2::element_rect(fill = "grey95")
+     )
+   if(find_plot_theme()) p <- p + find_plot_theme()()
+   return(p)
 }
 
 #' Create New Submissions Plot

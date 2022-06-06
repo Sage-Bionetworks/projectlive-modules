@@ -55,6 +55,13 @@ milestone_reporting_module_ui <- function(id, button_text = "Download plot table
             width = 12,
             plotly::plotlyOutput(ns("plot2"))
           )
+        ),
+        shiny::fluidRow(
+          shiny::column(
+            width = 12,
+            shiny::textOutput(ns("click_text2")),
+            shiny::uiOutput(ns("link2"))
+          )
         )
       ),
       # ----
@@ -98,6 +105,13 @@ milestone_reporting_module_ui <- function(id, button_text = "Download plot table
             width = 12,
             plotly::plotlyOutput(ns("plot1"))
           )
+        ),
+        shiny::fluidRow(
+          shiny::column(
+            width = 12,
+            shiny::textOutput(ns("click_text1")),
+            shiny::uiOutput(ns("link1"))
+          )
         )
       )
     )
@@ -114,7 +128,7 @@ milestone_reporting_module_ui <- function(id, button_text = "Download plot table
 #' @keywords internal
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
-milestone_reporting_module_server <- function(id, data, config){
+milestone_reporting_module_server <- function(id, data, config, syn, study_id){
   shiny::moduleServer(
     id,
     function(input, output, session) {
@@ -164,6 +178,11 @@ milestone_reporting_module_server <- function(id, data, config){
           "Study has no current milestones or progress report updates."
         ))
         format_plot_data_with_config(tbl, config)
+      })
+
+      fileview_id <- shiny::reactive({
+        shiny::req(study_id(), syn)
+        get_filview_id_from_study(study_id(), syn)
       })
 
       # plot1 ----
@@ -239,12 +258,12 @@ milestone_reporting_module_server <- function(id, data, config){
 
       grouped_files_tbl1 <- shiny::reactive({
         shiny::req(
-          files_tbl(),
+          filtered_files_tbl1(),
           config(),
           input$join_column_choice
         )
-        group_files_tbl1(
-          files_tbl(),
+        group_files_tbl(
+          filtered_files_tbl1(),
           config(),
           input$join_column_choice
         )
@@ -295,11 +314,44 @@ milestone_reporting_module_server <- function(id, data, config){
       output$plot1 <- plotly::renderPlotly({
         shiny::req(plot_obj1())
 
-        plotly::ggplotly(plot_obj1()) %>%
-          plotly::layout(
-            autosize = T
-          )
+        plot_obj1() %>%
+          plotly::ggplotly(source = "milestone_plot1") %>%
+          plotly::layout(autosize = T)
       })
+
+      event_data1 <- shiny::reactive({
+        shiny::req(plot_obj1())
+        eventdata <- plotly::event_data(event = "plotly_click", source = "milestone_plot1")
+        if(is.null(eventdata) && !is.null(input$mock_event_data1)){
+          eventdata <- input$mock_event_data1
+        }
+        return(eventdata)
+      })
+
+      click_text1 <- shiny::reactive({
+        shiny::req(fileview_id())
+
+        shiny::validate(shiny::need(
+          all(!is.null(event_data1()), event_data1() != ""),
+          "Click on a bar above of actual files to get a list of synapse ids."
+        ))
+
+        create_file_text_string(fileview_id(), event_data1()$key[[1]])
+      })
+
+      output$click_text1 <- shiny::renderText(click_text1())
+
+      link1 <- shiny::reactive({
+        shiny::req(stringr::str_detect(fileview_id(), "^syn[0-9]+$"))
+
+        shiny::validate(shiny::need(
+          all(!is.null(event_data1()), event_data1() != ""),
+          "Click on a bar above of actual files to get a list of synapse ids."
+        ))
+        link <- create_fileview_link(fileview_id(), event_data1()$key[[1]])
+      })
+
+      output$link1 <- shiny::renderUI(shiny::a("See selected files in Synapse.", href = link1()))
 
       output$download_tbl1 <- shiny::downloadHandler(
         filename = function() stringr::str_c("data-", Sys.Date(), ".csv"),
@@ -309,6 +361,7 @@ milestone_reporting_module_server <- function(id, data, config){
       # plot2 ----
 
       milestone_choices <- shiny::reactive({
+
         shiny::req(files_tbl(), id_tbl(), config())
         config <- config()
         milestone_column   <- rlang::sym(config$milestone_column)
@@ -353,13 +406,24 @@ milestone_reporting_module_server <- function(id, data, config){
         shiny::req(
           files_tbl(),
           config(),
-          input$milestone_choice,
-          input$join_column_choice
+          input$milestone_choice
         )
         filter_files_tbl2(
           files_tbl(),
           config(),
-          input$milestone_choice,
+          input$milestone_choice
+        )
+      })
+
+      grouped_files_tbl2 <- shiny::reactive({
+        shiny::req(
+          filtered_files_tbl2(),
+          config(),
+          input$join_column_choice
+        )
+        group_files_tbl(
+          filtered_files_tbl2(),
+          config(),
           input$join_column_choice
         )
       })
@@ -383,14 +447,14 @@ milestone_reporting_module_server <- function(id, data, config){
 
         shiny::req(
           filtered_id_tbl2(),
-          filtered_files_tbl2(),
+          grouped_files_tbl2(),
           config(),
           input$join_column_choice
         )
 
         merge_tbls(
           filtered_id_tbl2(),
-          filtered_files_tbl2(),
+          grouped_files_tbl2(),
           config(),
           input$join_column_choice
         )
@@ -410,11 +474,46 @@ milestone_reporting_module_server <- function(id, data, config){
       output$plot2 <- plotly::renderPlotly({
         shiny::req(plot_obj2())
 
-        plotly::ggplotly(plot_obj2()) %>%
-          plotly::layout(
-            autosize = T
-          )
+        plot_obj2() %>%
+          plotly::ggplotly(source = "milestone_plot2") %>%
+          plotly::layout(autosize = T)
       })
+
+      event_data2 <- shiny::reactive({
+        shiny::req(plot_obj2())
+        eventdata <- plotly::event_data(
+          event = "plotly_click",
+          source = "milestone_plot2"
+        )
+        if(is.null(eventdata) && !is.null(input$mock_event_data2)){
+          eventdata <- input$mock_event_data2
+        }
+        return(eventdata)
+      })
+
+      click_text2 <- shiny::reactive({
+        shiny::req(fileview_id())
+
+        shiny::validate(shiny::need(
+          all(!is.null(event_data2()), event_data2() != ""),
+          "Click on a bar above of actual files to get a list of synapse ids."
+        ))
+        create_file_text_string(fileview_id(), event_data2()$key[[1]])
+      })
+
+      output$click_text2 <- shiny::renderText(click_text2())
+
+      link2 <- shiny::reactive({
+        shiny::req(stringr::str_detect(fileview_id(), "^syn[0-9]+$"))
+
+        shiny::validate(shiny::need(
+          all(!is.null(event_data1()), event_data2() != ""),
+          "Click on a bar above of actual files to get a list of synapse ids."
+        ))
+        link <- create_fileview_link(fileview_id(), event_data1()$key[[1]])
+      })
+
+      output$link2 <- shiny::renderUI(shiny::a("See selected files in Synapse.", href = link2()))
 
       output$download_tbl2 <- shiny::downloadHandler(
         filename = function() stringr::str_c("data-", Sys.Date(), ".csv"),
