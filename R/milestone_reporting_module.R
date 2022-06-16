@@ -279,7 +279,6 @@ milestone_reporting_module_server <- function(id, data, config, syn, study_id){
           config(),
           input$join_column_choice
         )
-
         merge_tbls(
           filtered_id_tbl1(),
           grouped_files_tbl1(),
@@ -303,7 +302,10 @@ milestone_reporting_module_server <- function(id, data, config, syn, study_id){
         shiny::req(plot_obj1())
 
         plot_obj1() %>%
-          plotly::ggplotly(source = "milestone_plot1") %>%
+          plotly::ggplotly(
+            source = "milestone_plot1",
+            tooltip = c("Number of Files")
+          ) %>%
           plotly::layout(autosize = T)
       })
 
@@ -318,7 +320,6 @@ milestone_reporting_module_server <- function(id, data, config, syn, study_id){
 
       link1 <- shiny::reactive({
         shiny::req(stringr::str_detect(fileview_id(), "^syn[0-9]+$"))
-
         shiny::validate(shiny::need(
           all(!is.null(event_data1()), event_data1() != ""),
           'Click on a bar above in the "ACTUAL" column to generate a link to the files in Synapse.'
@@ -328,13 +329,14 @@ milestone_reporting_module_server <- function(id, data, config, syn, study_id){
 
       output$link_box1 <- shinydashboard::renderInfoBox({
         shinydashboard::infoBox(
-          title = "Synapse Fileview",
+          title = "List of files in selection",
           icon = shiny::icon("table"),
           value =  shiny::a(
             "See selected files in Synapse.",
             href = link1()
           ),
-          color = "green"
+          color = "red",
+          fill = T
         )
       })
 
@@ -460,7 +462,10 @@ milestone_reporting_module_server <- function(id, data, config, syn, study_id){
         shiny::req(plot_obj2())
 
         plot_obj2() %>%
-          plotly::ggplotly(source = "milestone_plot2") %>%
+          plotly::ggplotly(
+            source = "milestone_plot2",
+            tooltip = c("Number of Files")
+          ) %>%
           plotly::layout(autosize = T)
       })
 
@@ -488,13 +493,14 @@ milestone_reporting_module_server <- function(id, data, config, syn, study_id){
 
       output$link_box2 <- shinydashboard::renderInfoBox({
         shinydashboard::infoBox(
-          title = "Synapse Fileview",
+          title = "List of files in selection",
           icon = shiny::icon("table"),
           value =  shiny::a(
             "See selected files in Synapse.",
             href = link2()
           ),
-          color = "green"
+          color = "red",
+          fill = T
         )
       })
 
