@@ -24,7 +24,7 @@ test_that("study_selection_module_server", {
       expect_type(selected_study_id(), "character")
       expect_equal(
         selected_study_id(),
-        "S3"
+        "syn103"
       )
       expect_type(selected_study_name(), "character")
       expect_equal(

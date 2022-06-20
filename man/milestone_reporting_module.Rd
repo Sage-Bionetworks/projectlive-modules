@@ -7,7 +7,7 @@
 \usage{
 milestone_reporting_module_ui(id, button_text = "Download plot table")
 
-milestone_reporting_module_server(id, data, config, syn, study_id)
+milestone_reporting_module_server(id, data, config, syn, study_id, verbose = T)
 }
 \arguments{
 \item{id}{shiny id}
