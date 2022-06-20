@@ -188,10 +188,10 @@ test_that("milestone_reporting_module_server_event_data", {
       expect_equal(fileview_id(), "syn13363852")
 
       expect_true(is.data.frame(event_data1()))
-      expect_equal(selected_synapse_ids1(), "syn1,syn2,syn3,syn4")
+      expect_equal(selected_synapse_ids1(), "'syn1','syn2','syn3','syn4'")
       expect_equal(
         synapse_query1(),
-        "SELECT * FROM syn13363852 WHERE id IN (syn1,syn2,syn3,syn4)"
+        "SELECT * FROM syn13363852 WHERE id IN ('syn1','syn2','syn3','syn4')"
       )
       expect_equal(
         synapse_query_json1(),
@@ -210,10 +210,10 @@ test_that("milestone_reporting_module_server_event_data", {
       ))
 
       expect_true(is.data.frame(event_data2()))
-      expect_equal(selected_synapse_ids2(), "syn1,syn2")
+      expect_equal(selected_synapse_ids2(), "'syn1','syn2'")
       expect_equal(
         synapse_query2(),
-        "SELECT * FROM syn13363852 WHERE id IN (syn1,syn2)"
+        "SELECT * FROM syn13363852 WHERE id IN ('syn1','syn2')"
       )
       expect_equal(
         synapse_query_json2(),

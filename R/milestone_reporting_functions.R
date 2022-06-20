@@ -130,6 +130,14 @@ get_filview_id_from_study <- function(study_id, syn){
   return(children[[1]]$id)
 }
 
+get_synapse_file_ids <- function(eventdata){
+  eventdata$key[[1]] %>%
+    stringr::str_split(",") %>%
+    .[[1]] %>%
+    stringr::str_c("'", ., "'") %>%
+    stringr::str_c(collapse = ",")
+}
+
 create_fileview_query <- function(fileview_id, file_id_string){
   "SELECT * FROM {fileview_id} WHERE id IN ({file_id_string})" %>%
     glue::glue() %>%

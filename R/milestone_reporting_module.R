@@ -337,13 +337,10 @@ milestone_reporting_module_server <- function(
         if(!"key" %in% colnames(event_data1())) {
           stop("plot1 eventdata malformed:", event_data1())
         }
-        return(event_data1()$key[[1]])
+        return(get_synapse_file_ids(event_data1()))
       })
 
       synapse_query1 <- shiny::reactive({
-        print("test1")
-        print(fileview_id())
-        print(selected_synapse_ids1())
         query <- create_fileview_query(fileview_id(), selected_synapse_ids1())
         if(verbose){
           print("plot1 query")
@@ -524,7 +521,7 @@ milestone_reporting_module_server <- function(
         if(!"key" %in% colnames(event_data2())) {
           stop("plot2 eventdata malformed:", event_data2())
         }
-        return(event_data2()$key[[1]])
+        return(get_synapse_file_ids(event_data2()))
       })
 
       synapse_query2 <- shiny::reactive({
