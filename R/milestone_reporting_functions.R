@@ -130,34 +130,24 @@ get_filview_id_from_study <- function(study_id, syn){
   return(children[[1]]$id)
 }
 
-create_file_text_string <- function(fileview_id, file_ids){
-  stringr::str_c(
-    "Fileview ID:",
-    fileview_id,
-    "File IDs:",
-    stringr::str_c(file_ids, collapse = ", "),
-    sep = " "
-  )
-}
-
-create_fileview_link <- function(fileview_id, file_ids){
-
-  file_id_string <- file_ids %>%
-    stringr::str_c("'", ., "'") %>%
-    stringr::str_c(collapse = ", ")
-
-  sql <- "SELECT * FROM {fileview_id} where id in ({file_id_string})" %>%
+create_fileview_query <- function(fileview_id, file_id_string){
+  "SELECT * FROM {fileview_id} WHERE id IN ({file_id_string})" %>%
     glue::glue() %>%
     as.character()
+}
 
+create_fileview_query_json <- function(query){
   json_list <- list(
-    "sql" = sql,
+    "sql" = query,
     "additionalFilters" = list(),
     "selectedFacets" = list(),
     "includeEntityEtag" = T,
     "offset" = 0,
     "limit" = 25
   )
+}
+
+create_fileview_link <- function(fileview_id, json_list){
 
   encoded_json <- json_list %>%
     jsonlite::toJSON(auto_unbox = T) %>%

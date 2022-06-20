@@ -21,18 +21,18 @@ n_studies <- 10
 
 studies <- dplyr::tibble(
   "study_name"  = stringr::str_c("Study", stringr::str_to_upper(letters[1:n_studies])),
-  "study_id"    = stringr::str_c("S", as.character(1:n_studies)),
+  "study_id"    = stringr::str_c("syn", as.character(1:n_studies + 100)),
   "initiative"  = sample(initiatives, n_studies,  replace = T),
 )
 
-study_ids <- c(studies$study_id, "SX", NA)
+study_ids <- c(studies$study_id, "synX", NA)
 
 
 n_files      <- 1000
 
 files <- dplyr::tibble(
   "file_name"   = stringr::str_c("File", as.character(1:n_files)),
-  "file_id"     = stringr::str_c("F", as.character(1:n_files)),
+  "file_id"     = stringr::str_c("syn", as.character(1:n_files)),
   "study_id"    = sample(study_ids, n_files,  replace = T),
   "species"     = sample(species, n_files,  replace = T),
   "assay"       = sample(assays, n_files,  replace = T),
