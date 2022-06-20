@@ -178,8 +178,9 @@ study_selection_module_server <- function(id, data, config){
             study_id
           )
 
-        data$tables         <- filtered_tables
-        data$selected_study <- study_name
+        data$tables            <- filtered_tables
+        data$selected_study    <- study_name
+        data$selected_study_id <- study_id
         return(data)
       })
 

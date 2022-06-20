@@ -7,7 +7,7 @@
 \usage{
 study_summary_module_ui(id, button_text = "Download plot table")
 
-study_summary_module_server(id, data, config)
+study_summary_module_server(id, data, config, syn)
 }
 \arguments{
 \item{id}{shiny id}

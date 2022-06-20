@@ -1,5 +1,9 @@
 devtools::load_all()
 
+synapseclient <- reticulate::import("synapseclient", delay_load = TRUE)
+syn <- synapseclient$Synapse()
+syn$login()
+
 ui <- function(req) {
   shiny::tagList(
     shiny::navbarPage(
@@ -19,7 +23,8 @@ server <- function(input, output, session) {
   study_summary_module_server(
     id = "study_summary_module",
     data = shiny::reactive(get_synthetic_data()),
-    config = shiny::reactive(get_study_summary_config())
+    config = shiny::reactive(get_study_summary_config()),
+    syn
   )
 
 }

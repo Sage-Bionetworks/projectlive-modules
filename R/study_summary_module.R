@@ -68,7 +68,7 @@ study_summary_module_ui <- function(id, button_text = "Download plot table"){
 #' @keywords internal
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
-study_summary_module_server <- function(id, data, config){
+study_summary_module_server <- function(id, data, config, syn){
   shiny::moduleServer(
     id,
     function(input, output, session) {
@@ -184,7 +184,9 @@ study_summary_module_server <- function(id, data, config){
        data = filtered_data,
        config = shiny::reactive(
          purrr::pluck(config(), "milestone_reporting_plot")
-       )
+       ),
+       syn,
+       shiny::reactive(filtered_data()$selected_study_id)
       )
 
     }

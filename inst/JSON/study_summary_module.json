@@ -196,6 +196,10 @@
         {
           "name": "milestone",
           "display_name": "Milestone Number"
+        },
+        {
+          "name": "file_id",
+          "display_name": "File ID"
         }
       ]
     },
@@ -227,6 +231,7 @@
     "date_created_column": "Date Created",
     "date_estimate_column": "Date Estimate",
     "expected_files_column": "Expected",
-    "actual_files_column": "Actual"
+    "actual_files_column": "Actual",
+    "file_id_column": "File ID"
   }
 }
