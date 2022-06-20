@@ -116,7 +116,14 @@ milestone_reporting_module_ui <- function(id, button_text = "Download plot table
 #' @keywords internal
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
-milestone_reporting_module_server <- function(id, data, config, syn, study_id){
+milestone_reporting_module_server <- function(
+    id,
+    data,
+    config,
+    syn,
+    study_id,
+    verbose = T
+  ){
   shiny::moduleServer(
     id,
     function(input, output, session) {
@@ -315,16 +322,42 @@ milestone_reporting_module_server <- function(id, data, config, syn, study_id){
         if(is.null(eventdata) && !is.null(input$mock_event_data1)){
           eventdata <- input$mock_event_data1
         }
+        if(verbose){
+          print("plot1 eventdata")
+          print(eventdata)
+        }
         return(eventdata)
       })
 
-      link1 <- shiny::reactive({
-        shiny::req(stringr::str_detect(fileview_id(), "^syn[0-9]+$"))
+      selected_synapse_ids1 <- shiny::reactive({
         shiny::validate(shiny::need(
           all(!is.null(event_data1()), event_data1() != ""),
           'Click on a bar above in the "ACTUAL" column to generate a link to the files in Synapse.'
         ))
-        link <- create_fileview_link(fileview_id(), event_data1()$key[[1]])
+        if(!"key" %in% colnames(event_data1())) {
+          stop("plot1 eventdata malformed:", event_data1())
+        }
+        return(event_data1()$key[[1]])
+      })
+
+      synapse_query1 <- shiny::reactive({
+        print("test1")
+        print(fileview_id())
+        print(selected_synapse_ids1())
+        query <- create_fileview_query(fileview_id(), selected_synapse_ids1())
+        if(verbose){
+          print("plot1 query")
+          print(query)
+        }
+        return(query)
+      })
+
+      synapse_query_json1 <- shiny::reactive({
+        create_fileview_query_json(synapse_query1())
+      })
+
+      link1 <- shiny::reactive({
+        create_fileview_link(fileview_id(), synapse_query_json1())
       })
 
       output$link_button1 <- shiny::renderUI({
@@ -472,14 +505,43 @@ milestone_reporting_module_server <- function(id, data, config, syn, study_id){
 
       event_data2 <- shiny::reactive({
         shiny::req(plot_obj2())
-        eventdata <- plotly::event_data(
-          event = "plotly_click",
-          source = "milestone_plot2"
-        )
+        eventdata <- plotly::event_data(event = "plotly_click", source = "milestone_plot2")
         if(is.null(eventdata) && !is.null(input$mock_event_data2)){
           eventdata <- input$mock_event_data2
         }
+        if(verbose){
+          print("plot2 eventdata")
+          print(eventdata)
+        }
         return(eventdata)
+      })
+
+      selected_synapse_ids2 <- shiny::reactive({
+        shiny::validate(shiny::need(
+          all(!is.null(event_data2()), event_data2() != ""),
+          'Click on a bar above in the "ACTUAL" column to generate a link to the files in Synapse.'
+        ))
+        if(!"key" %in% colnames(event_data2())) {
+          stop("plot2 eventdata malformed:", event_data2())
+        }
+        return(event_data2()$key[[1]])
+      })
+
+      synapse_query2 <- shiny::reactive({
+        query <- create_fileview_query(fileview_id(), selected_synapse_ids2())
+        if(verbose){
+          print("plot2 query")
+          print(query)
+        }
+        return(query)
+      })
+
+      synapse_query_json2 <- shiny::reactive({
+        create_fileview_query_json(synapse_query2())
+      })
+
+      link2 <- shiny::reactive({
+        create_fileview_link(fileview_id(), synapse_query_json2())
       })
 
       link2 <- shiny::reactive({
