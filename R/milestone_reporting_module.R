@@ -56,7 +56,7 @@ milestone_reporting_module_ui <- function(id, button_text = "Download plot table
             plotly::plotlyOutput(ns("plot2"))
           )
         ),
-        shinydashboard::infoBoxOutput(ns('link_box2'), width = 3),
+        shiny::uiOutput(ns("link_button2"))
       ),
       # ----
       shinydashboard::box(
@@ -100,7 +100,7 @@ milestone_reporting_module_ui <- function(id, button_text = "Download plot table
             plotly::plotlyOutput(ns("plot1"))
           )
         ),
-        shinydashboard::infoBoxOutput(ns('link_box1'), width = 3),
+        shiny::uiOutput(ns("link_button1"))
       )
     )
   )
@@ -327,18 +327,19 @@ milestone_reporting_module_server <- function(id, data, config, syn, study_id){
         link <- create_fileview_link(fileview_id(), event_data1()$key[[1]])
       })
 
-      output$link_box1 <- shinydashboard::renderInfoBox({
-        shinydashboard::infoBox(
-          title = "List of files in selection",
-          icon = shiny::icon("table"),
-          value =  shiny::a(
-            "See selected files in Synapse.",
-            href = link1()
-          ),
-          color = "red",
-          fill = T
+      output$link_button1 <- shiny::renderUI({
+        shiny::actionButton(
+          inputId = ns('synapse_link1'),
+          label = "See selected files in Synapse.",
+          icon = shiny::icon("map-marker-alt"),
+          lib = "font-awesome",
+          class = "btn btn-primary btn-lg btn-block",
+          onclick = stringr::str_c(
+            "window.open('", link1(),  "','_blank')"
+          )
         )
       })
+
 
       output$download_tbl1 <- shiny::downloadHandler(
         filename = function() stringr::str_c("data-", Sys.Date(), ".csv"),
@@ -483,7 +484,6 @@ milestone_reporting_module_server <- function(id, data, config, syn, study_id){
 
       link2 <- shiny::reactive({
         shiny::req(stringr::str_detect(fileview_id(), "^syn[0-9]+$"))
-
         shiny::validate(shiny::need(
           all(!is.null(event_data2()), event_data2() != ""),
           'Click on a bar above in the "ACTUAL" column to generate a link to the files in Synapse.'
@@ -491,16 +491,16 @@ milestone_reporting_module_server <- function(id, data, config, syn, study_id){
         link <- create_fileview_link(fileview_id(), event_data1()$key[[1]])
       })
 
-      output$link_box2 <- shinydashboard::renderInfoBox({
-        shinydashboard::infoBox(
-          title = "List of files in selection",
-          icon = shiny::icon("table"),
-          value =  shiny::a(
-            "See selected files in Synapse.",
-            href = link2()
-          ),
-          color = "red",
-          fill = T
+      output$link_button2 <- shiny::renderUI({
+        shiny::actionButton(
+          inputId = ns('synapse_link2'),
+          label = "See selected files in Synapse.",
+          icon = shiny::icon("map-marker-alt"),
+          lib = "font-awesome",
+          class = "btn btn-primary btn-lg btn-block",
+          onclick = stringr::str_c(
+            "window.open('", link2(),  "','_blank')"
+          )
         )
       })
 
