@@ -18,7 +18,7 @@ test_that("study_summary_module_server", {
 
       expect_type(filtered_data(), "list")
       expect_named(
-        filtered_data(), c('tables', 'selected_study')
+        filtered_data(), c('tables', 'selected_study', 'selected_study_id')
       )
       expect_type(filtered_data()$tables, "list")
       expect_named(
